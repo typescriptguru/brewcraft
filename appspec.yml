@@ -1,6 +1,5 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: /server/server.js
     destination: /home/ec2-user
-hooks:

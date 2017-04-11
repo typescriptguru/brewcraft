@@ -1,0 +1,87 @@
+.login {
+    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #1f2836;
+}
+
+.logo {
+    position: absolute;
+    width: 200px;
+    margin: -12px 0px 0px -12px;
+    padding: 0px
+}
+
+#polina {
+    font-weight: 100;
+    color: white;
+    padding: 2%;
+    width: 400px;
+    margin-top: 10%;
+}
+
+@media screen and (max-width: 500px) {
+    video {
+        display: none;
+    }
+}
+
+@media screen and (max-device-width: 800px) {
+    #bgvid {
+        display: none;
+    }
+}
+
+.form-control {
+    height: 40px !important;
+    padding: 8px 8px 8px 50px !important;
+}
+
+.form-control-feedback {
+    line-height: 40px !important;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    left: 15px !important;
+    font-size: 20px !important;
+    margin-left: 5px !important;
+}
+
+.error {
+    color: #eb3730;
+    /*float: left;
+    margin-left: 50px;*/
+    margin-top: 10px;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.form-group {
+    margin-top: 15px !important;
+    margin-bottom: 0px !important;
+}
+
+
+/*has-success .form-control*/
+
+.create {
+    font-size: 16px;
+    /*padding: 5px 35px;*/
+    width: 100%;
+    font-weight: 400;
+    color: #F7F7F7;
+    margin-top: 50px;
+}
+
+.create:focus {
+    outline: 0px;
+}
+
+a {
+    color: #099DED;
+    font-size: 16px;
+}
+
+p {
+    color: #1f2836;
+    font-size: 16px;
+}

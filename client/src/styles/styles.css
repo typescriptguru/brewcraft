@@ -1,0 +1,93 @@
+/* this file will be extracted to main dist folder and is imported in index.html */
+/* This file is for setting global styles  */
+
+body {
+  /*background: #222;*/
+}
+
+.image-grid {
+  margin-right: -15px;
+  margin-left: -15px;
+  text-align: center;
+}
+
+.image-grid > div{
+  position: relative;
+  cursor: pointer;
+}
+
+.image-grid  p {
+  margin-top: 10px;
+}
+
+.gallery-thumbnail {
+    text-align: center;
+    margin-bottom: 1px;
+    width: 100%;
+    content:'';
+    display: block;
+    padding-top: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.gallery-thumbnail-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.ui-paginator .ui-paginator-page.ui-state-active {
+  background: #333;
+  border-color: #333;
+}
+
+.form-control-feedback {
+  color: #333 !important;
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  
+}
+
+input[type=file][image-upload] {
+  
+}
+
+.caption {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.image-caption {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+@media (min-width: 769px) {
+  .image-wrapper {
+    width: 20% !important;
+  }
+}

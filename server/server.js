@@ -91,7 +91,7 @@ http.createServer(app).listen(port, function (err) {
 
 
 //  Database Connect
-var dbUri = `mongodb://localhost:27017/gallery`;
+var dbUri = `mongodb://34.201.32.130:27017/recipe`;
 mongoose.Promise = global.Promise;
 
 var options = {

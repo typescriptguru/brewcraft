@@ -1,5 +1,2 @@
 #!/bin/bash
-cd /home/ec2-user/brewcraft/client
-npm install
-cd /home/ec2-user/brewcraft/server
-npm install
+mkdir /home/ec2-user/aaa

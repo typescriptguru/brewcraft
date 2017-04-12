@@ -1,5 +1,5 @@
 version: 0.0
 os: linux
 files:
-  - source: /server/server.js
+  - source: /server/router.js
     destination: /home/ec2-user

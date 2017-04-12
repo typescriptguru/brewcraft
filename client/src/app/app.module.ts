@@ -1,69 +1,58 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { GrowlModule } from 'primeng/primeng';
-import { DialogModule } from 'primeng/primeng';
-import { PaginatorModule } from 'primeng/primeng';
-import { ImageUploadModule } from 'ng2-imageupload';
-import { ModalGalleryModule } from 'angular-modal-gallery';
+import { RouterModule, Routes } from '@angular/router';
+import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { AuthService } from './services/auth.service';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
-import {
-  NgModule,
-  ApplicationRef
-} from '@angular/core';
-import {
-  removeNgStyles,
-  createNewHosts,
-  createInputTransfer
-} from '@angularclass/hmr';
-import {
-  RouterModule,
-  PreloadAllModules
-} from '@angular/router';
-
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
-// App is our top level component
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home';
-import { RegisterComponent } from './components/register';
-import { LoginComponent } from './components/login';
-import { NoContentComponent } from './components/no-content';
-import { ImageModal } from 'angular2-image-popup/directives/angular2-image-popup/image-modal-popup';
+import { HomeComponent } from './components/home/home.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
-import { UserService, SharedService, AuthGuard, ImageService } from './services/index';
+export const firebaseConfig = {
+  apiKey: "AIzaSyD759e-Z7liSYamprfMPQ5rZO_NY-RELjE",
+  authDomain: "brewcraft-d2e49.firebaseapp.com",
+  databaseURL: "https://brewcraft-d2e49.firebaseio.com",
+  projectId: "brewcraft-d2e49",
+  storageBucket: "brewcraft-d2e49.appspot.com",
+  messagingSenderId: "900215616942"
+};
 
-import '../styles/styles.scss';
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
+const firebaseAuthConfig = {
+  provider: AuthProviders.Google,
+  method: AuthMethods.Popup
+};
+
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SignupComponent},
+  { path: 'forgot-password', component: ForgotPasswordComponent},
+]
+
 @NgModule({
-  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     HomeComponent,
+    NavbarComponent,
     LoginComponent,
-    RegisterComponent,
-    NoContentComponent, 
-    ImageModal,
+    SignupComponent,
+    ForgotPasswordComponent,
   ],
-  imports: [ // import Angular's modules
+  imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    GrowlModule,
-    DialogModule,
-    PaginatorModule,
-    ImageUploadModule,
-    ModalGalleryModule.forRoot(),
-    RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules })
+    FlashMessagesModule,
+    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthGuard, UserService, SharedService, ImageService],
+  providers: [AuthService],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-
-  constructor(
-    public appRef: ApplicationRef
-  ) { }
-
-}
+export class AppModule { }

@@ -1,0 +1,26 @@
+<div class="box">
+  <div id="header">
+    <div id="cont-lock"><i class="material-icons lock">Image</i></div>
+    <div id="bottom-head">
+      <h1 id="logintoregister">Login</h1>
+    </div>
+  </div>
+  <form action="" method="post">
+    <div class="group">
+      <input class="inputMaterial" type="text" [(ngModel)]="user.email" name="email" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Email</label>
+    </div>
+    <div class="group">
+      <input class="inputMaterial" type="password" [(ngModel)]="user.password" name="password" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>Password</label>
+    </div>
+    <button id="buttonlogintoregister" type="button" (click)="login()">Login</button>
+  </form>
+  <div id="footer-box">
+    <p class="footer-text">Create Account?<a class="sign-up" href="signup"> Sign up</a></p>
+  </div>
+</div>

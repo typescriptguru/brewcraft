@@ -91,17 +91,17 @@ http.createServer(app).listen(port, function (err) {
 
 
 //  Database Connect
-var dbUri = `mongodb://34.201.32.130:27017/recipe`;
-mongoose.Promise = global.Promise;
+// var dbUri = `mongodb://34.201.32.130:27017/recipe`;
+// mongoose.Promise = global.Promise;
 
-var options = {
-  server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-  replset: { socketOptions: { keepAlive: 1, connectTimeoutcdMS: 30000 } }
-};
+// var options = {
+//   server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+//   replset: { socketOptions: { keepAlive: 1, connectTimeoutcdMS: 30000 } }
+// };
 
-var db = mongoose.connect(dbUri, options);
-mongoose.connection.on('open', () => {
-  console.log('Database connected...');
-})
+// var db = mongoose.connect(dbUri, options);
+// mongoose.connection.on('open', () => {
+//   console.log('Database connected...');
+// })
 
   // Database end

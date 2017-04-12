@@ -1,29 +1,5 @@
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">My Recipes</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right" *ngIf="sharedService.getUser()">
-            <li>
-                <a routerLink="/gallery" routerLinkActive="active">My Recipes</a>
-            </li>
-            <li>
-                <a href="/" routerLinkActive="active" (click)="logout()">Log out</a>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right" *ngIf="!sharedService.getUser()">
-            <li>
-                <a routerLink="/register" routerLinkActive="active">Register</a>
-            </li>
-            <li>
-                <a routerLink="/login" routerLinkActive="active">Login</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
+<app-navbar></app-navbar>
 <div class="container">
-    <main>
-        <router-outlet></router-outlet>
-    </main>
+  <flash-messages></flash-messages>
+  <router-outlet></router-outlet>
 </div>

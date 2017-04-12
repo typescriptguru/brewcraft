@@ -1,40 +1,21 @@
-/*
- * Angular 2 decorators and services
- */
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
-import { AppState } from './app.service';
-import { SharedService } from './services/index';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
-/*
- * App Component
- * Top Level Component
- */
 @Component({
-  selector: 'app',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
-  templateUrl: './app.component.html'
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  title = 'app works!';
 
-  constructor(
-    private router: Router,
-    private sharedService: SharedService
-  ) {
-    // console.log(localStorage.getItem('currentUser'));
-  }
-
-  public ngOnInit() {
-  }
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['/']);
+  constructor(private authService: AuthService) {
+    this.authService.af.auth.subscribe((auth) => {
+      if(auth) {
+        console.log('Login', auth);
+      } else {
+        console.log('Log out', auth);
+      }
+    })
   }
 }

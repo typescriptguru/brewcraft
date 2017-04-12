@@ -3,8 +3,8 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/brewcraft
-hooks:
-  AfterInstall:
-    - location: scripts/install_dependencies.sh
-      timeout: 3600
-      runas: root
+# hooks:
+#   AfterInstall:
+#     - location: scripts/install_dependencies.sh
+#       timeout: 3600
+#       runas: root

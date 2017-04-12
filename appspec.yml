@@ -5,6 +5,6 @@ files:
     destination: /home/ec2-user/brewcraft
 hooks:
   AfterInstall:
-    - location: scripts/install_dependencies
-      timeout: 500
+    - location: scripts/install_dependencies.sh
+      timeout: 3600
       runas: root

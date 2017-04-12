@@ -6,5 +6,5 @@ files:
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies
-      timeout: 300
+      timeout: 500
       runas: root

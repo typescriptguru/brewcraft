@@ -1,6 +1,7 @@
 #!/bin/bash
 cd /home/ec2-user/brewcraft/client
-npm install
-npm run build
+sudo npm install
+sudo npm install node-sass
+sudo npm run build
 cd /home/ec2-user/brewcraft/server
-npm install
+sudo npm install

@@ -1,38 +1,39 @@
-<div class="box">
-  <div id="header">
-    <div id="cont-lock"><i class="material-icons lock">Image</i></div>
-    <div id="bottom-head">
-      <h1 id="logintoregister">Signup</h1>
-    </div>
-  </div>
-  <form action="" method="post">
-    <div class="group">
-      <input class="inputMaterial" type="text" [(ngModel)]="user.username" name="username" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Username</label>
-    </div>
-    <div class="group">
-      <input class="inputMaterial" type="text" [(ngModel)]="user.email" name="email" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Email</label>
-    </div>
-    <div class="group">
-      <input class="inputMaterial" type="password" [(ngModel)]="user.password" name="password" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Password</label>
-    </div>
-    <div class="group">
-      <input class="inputMaterial" type="password" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Confirm Password</label>
-    </div>
-    <button id="buttonlogintoregister" type="button" (click)="signup()">Signup</button>
+<div class="box" style="top: 200px;">
+  <h1 class="text-center">Image</h1>
+  <form class="form-horizontal" action="" method="post">
+    <fieldset>
+      <div [ngClass]="{'form-group': true, 'has-error': emptyUsername}">
+        <div class="col-lg-12">
+          <input type="text" class="form-control" id="inputUsername" placeholder="Username" [(ngModel)]="user.username" name="username" #username="ngModel">
+          <div *ngIf="emptyUsername" class="animated fadeIn"><label class="error">Please enter username.</label></div>
+        </div>
+      </div>
+      <div [ngClass]="{'form-group': true, 'has-error': !onEmail}">
+        <div class="col-lg-12">
+          <input type="text" class="form-control" id="inputEmail" placeholder="Email" [(ngModel)]="user.email" name="email" #email="ngModel">
+          <div *ngIf="!onEmail" class="animated fadeIn"><label class="error">Please enter a valid email address.</label></div>
+        </div>
+      </div>
+      <div [ngClass]="{'form-group': true, 'has-error': !matchPassword || !validPassword}">
+        <div class="col-lg-12">
+          <input type="password" class="form-control" id="inputPassword" placeholder="Password" [(ngModel)]="user.password" name="password" #password="ngModel">
+          <div *ngIf="!matchPassword" class="animated fadeIn"><label class="error">Password does not match.</label></div>
+          <div *ngIf="!validPassword" class="animated fadeIn"><label class="error">Password must contain one number, one special character and one upper case letter.</label></div>
+        </div>
+      </div>
+      <div [ngClass]="{'form-group': true, 'has-error': !matchPassword || !validPassword}">
+        <div class="col-lg-12">
+          <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" name="confirm_password" #confirmpassword>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a class="btn btn-danger" (click)="signup(username.value, email.value, password.value, confirmpassword.value)">Submit</a>
+        </div>
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a href="/login" class="danger">Already Have Account</a>
+        </div>
+      </div>
+    </fieldset>
   </form>
-  <div id="footer-box">
-    <p class="footer-text">Have an account?<a class="sign-up" href="login"> Login</a></p>
-  </div>
 </div>

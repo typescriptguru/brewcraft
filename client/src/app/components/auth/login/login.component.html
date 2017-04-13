@@ -1,26 +1,27 @@
 <div class="box">
-  <div id="header">
-    <div id="cont-lock"><i class="material-icons lock">Image</i></div>
-    <div id="bottom-head">
-      <h1 id="logintoregister">Login</h1>
-    </div>
-  </div>
-  <form action="" method="post">
-    <div class="group">
-      <input class="inputMaterial" type="text" [(ngModel)]="user.email" name="email" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Email</label>
-    </div>
-    <div class="group">
-      <input class="inputMaterial" type="password" [(ngModel)]="user.password" name="password" required>
-      <span class="highlight"></span>
-      <span class="bar"></span>
-      <label>Password</label>
-    </div>
-    <button id="buttonlogintoregister" type="button" (click)="login()">Login</button>
+  <h1 class="text-center">Image</h1>
+  <form class="form-horizontal" action="" method="post">
+    <fieldset>
+      <div [ngClass]="{'form-group': true, 'has-error': !onEmail}">
+        <div class="col-lg-12">
+          <input type="text" class="form-control" id="inputEmail" placeholder="Email" [(ngModel)]="user.email" name="username">
+          <div *ngIf="!onEmail" class="animated fadeIn"><label class="error">Please enter a valid email address.</label></div>
+        </div>
+      </div>
+      <div [ngClass]="{'form-group': true, 'has-error': !onPassword}">
+        <div class="col-lg-12">
+          <input type="password" class="form-control" id="inputPassword" placeholder="Password" [(ngModel)]="user.password" name="password" #password="ngModel">
+          <div *ngIf="!onPassword" class="animated fadeIn"><label class="error">Please enter your password.</label></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a class="btn btn-danger" (click)="login()">Sign in</a>
+        </div>
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a href="/signup" class="danger">Create Account</a>
+        </div>
+      </div>
+    </fieldset>
   </form>
-  <div id="footer-box">
-    <p class="footer-text">Create Account?<a class="sign-up" href="signup"> Sign up</a></p>
-  </div>
 </div>

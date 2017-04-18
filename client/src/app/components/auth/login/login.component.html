@@ -10,16 +10,28 @@
       </div>
       <div [ngClass]="{'form-group': true, 'has-error': !onPassword}">
         <div class="col-lg-12">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Password" [(ngModel)]="user.password" name="password" #password="ngModel">
+          <input type="password" class="form-control" id="inputPassword" placeholder="Password" [(ngModel)]="user.password" name="password"
+            #password="ngModel">
           <div *ngIf="!onPassword" class="animated fadeIn"><label class="error">Please enter your password.</label></div>
         </div>
       </div>
       <div class="form-group">
         <div class="col-lg-12 text-center" style="margin-top: 15px;">
-          <a class="btn btn-danger" (click)="login()">Sign in</a>
+          <a class="btn btn-danger" (click)="login()" style="width: 100%">Sign in</a>
+        </div>
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a class="loginBtn loginBtn--facebook btn btn-primary" (click)="loginWithFacebook()">
+            Login with Facebook
+          </a>
+          <a class="loginBtn loginBtn--google btn btn-danger" (click)="loginWithGoogle()">
+            Login with Google
+          </a>
         </div>
         <div class="col-lg-12 text-center" style="margin-top: 15px;">
           <a href="/signup" class="danger">Create Account</a>
+        </div>
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a href="/forgot-password" class="danger">Forgot password?</a>
         </div>
       </div>
     </fieldset>

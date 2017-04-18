@@ -30,6 +30,15 @@
         <div class="col-lg-12 text-center" style="margin-top: 15px;">
           <a class="btn btn-danger" (click)="signup(username.value, email.value, password.value, confirmpassword.value)">Submit</a>
         </div>
+        
+        <div class="col-lg-12 text-center" style="margin-top: 15px;">
+          <a class="loginBtn loginBtn--facebook btn btn-primary" (click)="loginWithFacebook()">
+            Login with Facebook
+          </a>
+          <a class="loginBtn loginBtn--google btn btn-danger" (click)="loginWithGoogle()">
+            Login with Google
+          </a>
+        </div>
         <div class="col-lg-12 text-center" style="margin-top: 15px;">
           <a href="/login" class="danger">Already Have Account</a>
         </div>

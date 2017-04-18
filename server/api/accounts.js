@@ -1,109 +1,127 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
-var accountSchema = require('../model/model').accountSchema;
-var accountModel = mongoose.model('Account', accountSchema);
-
 var fs = require('graceful-fs');
 var bCrypt = require('bcrypt-nodejs');
-var ObjectId = mongoose.Types.ObjectId;
 var Util = require('../lib/util');
+var db = require('firebase').database();
+var model = require('../model/model');
+var auth = require('firebase').auth();
 
-router.get('/get/:id', (req, res) => {
-    accountModel.findOne({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    }, (err, doc) => {
-        if (err || !doc) res.send({
-            success: false,
-            data: null
+router.post('/add', (req, res) => {
+    req.body.password = [req.body.password];
+
+    db.ref('users/' + req.body.uid).once('value')
+        .then(snapshot => {
+            if (snapshot.val() == null) {
+                db.ref('users/' + req.body.uid).set(req.body)
+                    .then(account => {
+                        Util.responseHandler(res, true);
+                    });
+            }
         });
-        else {
-            res.send({
-                success: true,
-                data: doc
-            });
-        }
-    });
 });
-router.get('/get', (req, res) => {
-    accountModel.find((err, docs) => {
-        if (err) res.send({
-            success: false,
-            data: null
-        });
-        res.send({
-            success: true,
-            data: docs
-        });
-    })
-});
-router.delete('/:id/delete-network/:id1', (req, res) => {
-    accountModel.update({_id: ObjectId(req.params.id)},
-        { $pull: {
-            accounts: mongoose.Types.ObjectId(req.params.id1)
-        } },
-        (err, raw) => {
-            console.log(err, raw);
-            if(err) Util.responseHandler(res, false, 'Connection Error', null);
-            if(raw.nModified) Util.responseHandler(res, true, 'Success', null);
-            else Util.responseHandler(res, false, 'Not removed', null);
+
+router.get('/get/:uid', (req, res) => {
+    console.log(req.params.uid);
+    db.ref('users/' + req.params.uid).once('value')
+        .then(snapshot => {
+            if (snapshot.val() == null)
+                Util.responseHandler(res, false, 'The user with such uid doesn\'t exists', null);
+            else
+                Util.responseHandler(res, true, 'Success', snapshot.val());
+        })
+})
+
+router.get('/send-password-reset-mail/:email', (req, res) => {
+    console.log('password reset mail', req.params.email);
+    auth.sendPasswordResetEmail(req.params.email)
+        .then(result => {
+            Util.responseHandler(res, true, 'Password reset email has sent to your email address');
+        })
+        .catch(result => {
+            console.log(result);
+            Util.responseHandler(res, false, 'You have exceeded reset password limit');
+        })
+})
+
+router.get('/reset-password/:code/:newpassword', (req, res) => {
+    console.log('password reset confirm', req.params.code, req.params.newpassword);
+    var password = req.params.newpassword;
+    auth.verifyPasswordResetCode(req.params.code)
+        .then(email => {
+            db.ref('users').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+                var uid = Object.keys(snapshot.val())[0];
+                var user = snapshot.val()[uid];
+                var repeat_password_count = 0;
+                for(var i = 0 ; i < user.password.length; i ++) {
+                    if(user.password[i] == password)
+                        repeat_password_count ++;
+                }
+                if(repeat_password_count < 5) {
+
+                    auth.confirmPasswordReset(req.params.code, req.params.newpassword)
+                        .then(result => {
+                            Util.responseHandler(res, true, 'Password reset successfully');
+                        }).catch(err => {
+                            Util.responseHandler(res, false, err.message);
+                        })
+                    user.password.push(password);
+                    user.locked = false;
+                    db.ref('users/' + uid).set(user)
+                        .then(user => console.log(user));
+                } else {
+                    Util.responseHandler(res, false, 'You have already used the same password 5 times. Please use different one');
+                }
+            })
+        })
+        .catch(err => {
+            Util.responseHandler(res, false, err.message);
+        })
+})
+
+router.get('/check-locked/:uid', (req, res) => {
+    db.ref('users/' + req.params.uid).once('value', (snapshot) => {
+        Util.responseHandler(res, true, 'Success', {
+            locked: snapshot.val().locked
+        })
     })
 })
-router.put('/update/:id', (req, res) => {
-    var filepath = 'assets/gravatar/' + req.params.id + 'd.jpg';
-    var password = createHash(req.body.password);
 
-    var photoData = req.body.photo;
-
-    console.log(req.body.photo);
-    if(!photoData.includes('http')) {
-        uploadPhoto(photoData, filepath);
-        filepath = Util.SERVER_URL + filepath;
-        req.body.photo = filepath;
-    }
-
-    accountModel.update({
-            _id: mongoose.Types.ObjectId(req.params.id)
-        }, req.body,
-        (err, raw) => {
-            if (err) res.send({
-                success: false,
-                message: 'Error'
-            });
-            else res.send({
-                success: true,
-                message: 'Updated succesfully'
-            });
-        });
-});
-router.delete('/close/:id', (req, res) => {
-    accountModel.remove({
-        _id: mongoose.Types.ObjectId(req.params.id)
-    }, (err) => {
-        console.log(req.params.id);
-        if (err) res.send({
-            success: false,
-            message: 'Error'
-        });
-        else {
-            res.send({
-                success: true,
-                message: 'Successfully closed the account'
-            });
+router.put('/lock/:email', (req, res) => {
+    db.ref('users').orderByChild('email').equalTo(req.params.email).once('value', (snapshot) => {
+        var uid = Object.keys(snapshot.val())[0];
+        var user = snapshot.val()[uid];
+        if(user != null) {
+            var account = db.ref('users/' + user.uid);
+            account.update({ locked: true }, (err) => {
+                console.log(err);
+                if(err) {
+                    Util.responseHandler(res, false, 'Error occured while locking the account');
+                } else {
+                    Util.sendMail(req.params.email, "Account locked", `
+                    Your account has been locked due to security reasons. Please follow this link to change your password.<br>
+                    http://localhost:4200/change-password
+                    `);
+                    Util.responseHandler(res, true, 'The account has been locked');
+                }
+            })
         }
     });
-});
-function uploadPhoto(data, filepath) {
-    data = data.replace(/^data:image\/jpeg;base64,/, "");
-    data = data.replace(/^data:image\/png;base64,/, "");
-    var imageBuffer = new Buffer(data, 'base64'); //console = <Buffer 75 ab 5a 8a ...
-    fs.writeFile('public/' + filepath, imageBuffer, function (err) {
-        console.log(err);
-        return filepath;
-    });
-}
+})
 
- // Generates hash using bCrypt
+router.put('/lockout/:uid', (req, res) => {
+    var account = db.ref('users/' + req.params.uid);
+    account.update({ locked: false }, (err) => {
+        console.log(err);
+        if(err) {
+            Util.responseHandler(res, false, 'Error occured while unlocking the account');
+        } else {
+            Util.responseHandler(res, true, 'The account has been locked out');
+        }
+    })
+})
+
+// Generates hash using bCrypt
 var createHash = function (password) {
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 };

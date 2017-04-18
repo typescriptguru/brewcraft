@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, User } from '../../../services/auth.service';
+import { AuthService, User, SharedService } from '../../../services';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +17,14 @@ export class LoginComponent implements OnInit {
   onEmail: Boolean = true;
 
   constructor(private authService: AuthService,
-    public flashMessage: FlashMessagesService, ) { }
+    private sharedService: SharedService,
+    public flashMessage: FlashMessagesService,
+    private router: Router) { }
 
   ngOnInit() {
   }
 
   login() {
-    console.log(this.user);
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.onPassword = true;
     if (this.user.password == "" || this.user.password == null) {
@@ -33,14 +35,66 @@ export class LoginComponent implements OnInit {
       var self = this;
       this.authService.loginWithEmailAndPassword(this.user)
         .then((res) => {
-          self.flashMessage.show('You have been successfully logged in ',
-            { cssClass: 'alert-success', timeout: 5000 });
+          self.authService.checkLockStatus(res.uid).then(res => {
+            if (!res.data.locked) {
+              self.flashMessage.show('You have been successfully logged in ',
+                { cssClass: 'alert-success', timeout: 5000 });
+              this.router.navigate(['/dashboard']);
+            } else {
+              self.flashMessage.show('Your account has been locked due to security reasons',
+                { cssClass: 'alert-danger', timeout: 5000 });
+              self.authService.logout();
+            }
+          })
         })
-        .catch(function (error) {
+        .catch(function (error: any) {
           self.flashMessage.show(error.message,
             { cssClass: 'alert-danger', timeout: 5000 });
           self.user.password = "";
+          if (error.code == "auth/wrong-password") {
+            self.sharedService.incRetry();
+            if (self.sharedService.getRetry() == 5) {
+              self.authService.lockUser(self.user.email)
+                .then(res => {
+                  console.log(res.message);
+                })
+            }
+          }
         });
     }
+  }
+  loginWithFacebook() {
+    var self = this;
+    this.authService.loginWithFacebook()
+      .then(res => {
+        this.user.credential_provider = "facebook";
+        this.user.fullname = res.auth.displayName;
+        this.user.email = res.auth.email;
+        this.user.photoUrl = res.auth.photoURL;
+        this.user.uid = res.uid;
+        this.authService.addUserToDatabase(this.user);
+        this.router.navigate(['/dashboard']);
+      })
+      .catch(err => {
+        self.flashMessage.show(err.message,
+          { cssClass: 'alert-danger', timeout: 5000 });
+      })
+  }
+  loginWithGoogle() {
+    var self = this;
+    this.authService.loginWithGoogle()
+      .then(res => {
+        this.user.credential_provider = "google";
+        this.user.fullname = res.auth.displayName;
+        this.user.email = res.auth.email;
+        this.user.photoUrl = res.auth.photoURL;
+        this.user.uid = res.uid;
+        this.authService.addUserToDatabase(this.user);
+        this.router.navigate(['/dashboard']);
+      })
+      .catch(err => {
+        self.flashMessage.show(err.message,
+          { cssClass: 'alert-danger', timeout: 5000 });
+      })
   }
 }

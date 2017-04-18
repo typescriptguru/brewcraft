@@ -6,24 +6,21 @@ var errorhandler = require('errorhandler');
 var dotenv = require('dotenv');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var config = require('./global/config');
 var session = require('express-session');
-var passport = require('passport');
 var path = require('path');
 var fs = require('graceful-fs');
+var config = require('./global/config');
 
-// Initialize Passport
-var initPassport = require('./passport-init');
-initPassport(passport);
+
+// Firebase Initiailize
+var firebase = require("firebase");
+firebase.initializeApp(config.FIREBASE_CONFIG);
 
 // Requrie apis
-var authenticate = require('./api/authenticate')(passport);
+var authenticate = require('./api/authenticate');
 var accountHandler = require('./api/accounts');
-var imageHandler = require('./api/images');
 var clientHanlder = require('./router.js');
-
-require('./model/model');
 
 var app = express();
 
@@ -53,8 +50,6 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(cors());
 app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(function (err, req, res, next) {
   if (err.name === 'StatusError') {
@@ -80,7 +75,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/auth', authenticate);
 app.use('/accounts', accountHandler);
-app.use('/images', imageHandler);
 app.use('/*', clientHanlder);
 
 var port = process.env.PORT || 80;
@@ -89,19 +83,3 @@ http.createServer(app).listen(port, function (err) {
   console.log('listening on port:' + port);
 });
 
-
-//  Database Connect
-// var dbUri = `mongodb://34.201.32.130:27017/recipe`;
-// mongoose.Promise = global.Promise;
-
-// var options = {
-//   server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-//   replset: { socketOptions: { keepAlive: 1, connectTimeoutcdMS: 30000 } }
-// };
-
-// var db = mongoose.connect(dbUri, options);
-// mongoose.connection.on('open', () => {
-//   console.log('Database connected...');
-// })
-
-  // Database end

@@ -29,5 +29,4 @@ export class NavbarComponent implements OnInit {
         { cssClass: 'alert-success', timeout: 3000 });
     });
   }
-
 }

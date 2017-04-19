@@ -30,6 +30,10 @@ function uploadPhoto(data, filepath) {
     });
 }
 
+function copyProps(dest, src) {
+    for(var k in src) dest[k]=src[k];
+}
+
 function sendMail(to, subject, message) {
     mailOptions.to = to;
     mailOptions.subject = subject;
@@ -51,5 +55,6 @@ module.exports = {
         });
     },
     uploadPhoto: uploadPhoto,
-    sendMail: sendMail
+    sendMail: sendMail,
+    copyProps: copyProps
 }

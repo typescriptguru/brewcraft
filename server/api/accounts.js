@@ -4,20 +4,30 @@ var fs = require('graceful-fs');
 var bCrypt = require('bcrypt-nodejs');
 var Util = require('../lib/util');
 var db = require('firebase').database();
-var model = require('../model/model');
+var Account = require('../model/model').Account;
 var auth = require('firebase').auth();
+
+var guildsRef = db.ref('guilds');
+var usersRef = db.ref('users');
 
 router.post('/add', (req, res) => {
     req.body.password = [req.body.password];
 
-    db.ref('users/' + req.body.uid).once('value')
+    var account = new Account();
+    console.log(req.body);
+    Util.copyProps(account, req.body);
+    console.log(account);
+    db.ref('users/' + account.uid).once('value')
         .then(snapshot => {
             if (snapshot.val() == null) {
-                db.ref('users/' + req.body.uid).set(req.body)
+                db.ref('users/' + account.uid).set(account)
                     .then(account => {
                         Util.responseHandler(res, true);
                     });
             }
+        })
+        .catch(err => {
+            Util.responseHandler(res, false, err.message);
         });
 });
 
@@ -53,11 +63,11 @@ router.get('/reset-password/:code/:newpassword', (req, res) => {
                 var uid = Object.keys(snapshot.val())[0];
                 var user = snapshot.val()[uid];
                 var repeat_password_count = 0;
-                for(var i = 0 ; i < user.password.length; i ++) {
-                    if(user.password[i] == password)
-                        repeat_password_count ++;
+                for (var i = 0; i < user.password.length; i++) {
+                    if (user.password[i] == password)
+                        repeat_password_count++;
                 }
-                if(repeat_password_count < 5) {
+                if (repeat_password_count < 5) {
 
                     auth.confirmPasswordReset(req.params.code, req.params.newpassword)
                         .then(result => {
@@ -91,11 +101,11 @@ router.put('/lock/:email', (req, res) => {
     db.ref('users').orderByChild('email').equalTo(req.params.email).once('value', (snapshot) => {
         var uid = Object.keys(snapshot.val())[0];
         var user = snapshot.val()[uid];
-        if(user != null) {
+        if (user != null) {
             var account = db.ref('users/' + user.uid);
             account.update({ locked: true }, (err) => {
                 console.log(err);
-                if(err) {
+                if (err) {
                     Util.responseHandler(res, false, 'Error occured while locking the account');
                 } else {
                     Util.sendMail(req.params.email, "Account locked", `
@@ -113,11 +123,87 @@ router.put('/lockout/:uid', (req, res) => {
     var account = db.ref('users/' + req.params.uid);
     account.update({ locked: false }, (err) => {
         console.log(err);
-        if(err) {
+        if (err) {
             Util.responseHandler(res, false, 'Error occured while unlocking the account');
         } else {
             Util.responseHandler(res, true, 'The account has been locked out');
         }
+    })
+})
+
+router.post('/search', (req, res) => {
+    var keyword = new RegExp(req.body.keyword, "i");
+
+    usersRef.once('value', (snapshot) => {
+        var users = snapshot.val();
+        var result = [];
+        for (var key in users) {
+            if (users.hasOwnProperty(key)) {
+                var user = users[key];
+                if (user.fullname.search(keyword) != -1)
+                    result.push(user)
+                else {
+                    if (user.credential_provider == "password")
+                        if (user.email.search(keyword) != -1)
+                            result.push(user);
+                }
+            }
+        }
+        Util.responseHandler(res, true, "Success", result);
+    })
+})
+
+router.post('/follow', (req, res) => {
+    var followingID = req.body.following;
+    var followedID = req.body.followed;
+
+    db.ref('users/' + followingID).once('value', (snapshot) => {
+        var followingUser = snapshot.val();
+        if (followingUser.following == undefined)
+            followingUser.following = [];
+        if (followingUser.following.indexOf(followedID) == -1) {
+            followingUser.following.push(followedID);
+            db.ref('users/' + followingID).update({ following: followingUser.following });
+            db.ref('users/' + followedID).once('value', (snapshot) => {
+                var followedUser = snapshot.val();
+                if (followedUser.followed == undefined)
+                    followedUser.followed = [];
+                if (followedUser.followed.indexOf(followingID) == -1) {
+                    followedUser.followed.push(followingID)
+                    db.ref('users/' + followedID).update({ followed: followedUser.followed });
+                }
+                Util.responseHandler(res, true);
+            })
+        } else {
+            Util.responseHandler(res, false, 'You are already following this user');
+        }
+    })
+})
+
+router.post('/unfollow', (req, res) => {
+    var followingID = req.body.following;
+    var followedID = req.body.followed;
+
+    db.ref('users/' + followingID).once('value', (snapshot) => {
+        var followingUser = snapshot.val();
+        if (followingUser.following == undefined)
+            followingUser.following = [];
+        var pos;
+        while ((pos = followingUser.following.indexOf(followedID)) > -1) {
+            followingUser.following.splice(pos, 1);
+        }
+        db.ref('users/' + followingID).update({following: followingUser.following});
+    })
+    db.ref('users/' + followedID).once('value', (snapshot) => {
+        var followedUser = snapshot.val();
+        if (followedUser.followed == undefined)
+            followedUser.followed = [];
+        var pos;
+        while ((pos = followedUser.followed.indexOf(followingID)) > -1) {
+            followedUser.followed.splice(pos, 1);
+        }
+        db.ref('users/' + followedID).update({followed: followedUser.followed});
+        Util.responseHandler(res, true);
     })
 })
 

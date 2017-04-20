@@ -21,6 +21,7 @@ firebase.initializeApp(config.FIREBASE_CONFIG);
 var authenticate = require('./api/authenticate');
 var accountHandler = require('./api/accounts');
 var guildHanlder = require('./api/guild');
+var messageHandler = require('./api/message');
 var clientHanlder = require('./router.js');
 
 var app = express();
@@ -77,6 +78,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/auth', authenticate);
 app.use('/accounts', accountHandler);
 app.use('/guilds', guildHanlder);
+app.use('/messages', messageHandler);
 app.use('/*', clientHanlder);
 
 var port = process.env.PORT || 80;

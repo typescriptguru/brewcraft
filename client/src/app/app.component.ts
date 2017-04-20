@@ -14,7 +14,6 @@ export class AppComponent {
       if(auth) {
         console.log('Login', auth);
         this.sharedService.setUser(auth.uid, auth.auth.email)
-        this.authService.getUser();
       } else {
         console.log('Log out', auth);
         localStorage.removeItem('currentUser');

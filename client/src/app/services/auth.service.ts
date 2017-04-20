@@ -100,4 +100,11 @@ export class User {
   credential_provider: string;
   joinDate: Date;
   locked: Boolean;
+  isAdmin: Boolean;
+  following: Array<any>;
+  followed: Array<any>;
+  guildID: String;
+  brewbook: Array<any>;
+  isChief: Boolean;
+  guildInvites: Array<any>;
 }

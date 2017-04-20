@@ -4,7 +4,7 @@ class Account {
         this.fullname = "";
         this.email = "";
         this.password = [];
-        this.photoUrl = "";
+        this.photoUrl = "/assets/gravatar/default.jpg";
         this.joinDate = new Date();
         this.credential_provider = "";
         this.locked = false;
@@ -35,8 +35,19 @@ class Recipe {
     }
 }
 
+class Message {
+    constructor() {
+        this.sender = "";
+        this.receiver = "";
+        this.subject = "";
+        this.message = "";
+        this.read = false;
+    }
+}
+
 module.exports = {
     Account: Account,
     Guild: Guild,
-    Recipe: Recipe
+    Recipe: Recipe,
+    Message: Message
 }

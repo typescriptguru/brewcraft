@@ -3,6 +3,8 @@ import { AuthService, User, SharedService } from '../../../services';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 
+import * as firebase from 'firebase';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +24,10 @@ export class LoginComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    var chat = firebase.database().ref('chat');
+    chat.on('child_added', (snapshot) => {
+      console.log(snapshot.val());
+    })
   }
 
   login() {

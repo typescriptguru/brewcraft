@@ -39,9 +39,7 @@ function sendMail(to, subject, message) {
     mailOptions.subject = subject;
     mailOptions.html = message;
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
+        // console.log(error, info);
     });
 }
 

@@ -110,7 +110,7 @@ router.put('/lock/:email', (req, res) => {
                 } else {
                     Util.sendMail(req.params.email, "Account locked", `
                     Your account has been locked due to security reasons. Please follow this link to change your password.<br>
-                    http://localhost:4200/change-password
+                    http://34.205.172.156/change-password
                     `);
                     Util.responseHandler(res, true, 'The account has been locked');
                 }

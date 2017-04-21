@@ -17,6 +17,7 @@ router.post('/add', (req, res) => {
     console.log(req.body);
     Util.copyProps(account, req.body);
     console.log(account);
+    account.joinDate = account.joinDate.toString();
     db.ref('users/' + account.uid).once('value')
         .then(snapshot => {
             if (snapshot.val() == null) {
@@ -24,6 +25,8 @@ router.post('/add', (req, res) => {
                     .then(account => {
                         Util.responseHandler(res, true);
                     });
+            } else {
+                Util.responseHandler(res, false);
             }
         })
         .catch(err => {
@@ -32,7 +35,6 @@ router.post('/add', (req, res) => {
 });
 
 router.get('/get/:uid', (req, res) => {
-    console.log(req.params.uid);
     db.ref('users/' + req.params.uid).once('value')
         .then(snapshot => {
             if (snapshot.val() == null)

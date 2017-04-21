@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     var chat = firebase.database().ref('chat');
     chat.on('child_added', (snapshot) => {
-      console.log(snapshot.val());
     })
   }
 
@@ -41,11 +40,14 @@ export class LoginComponent implements OnInit {
       var self = this;
       this.authService.loginWithEmailAndPassword(this.user)
         .then((res) => {
+          var uid = res.uid;
           self.authService.checkLockStatus(res.uid).then(res => {
-            if (!res.data.locked) {
-              self.flashMessage.show('You have been successfully logged in ',
-                { cssClass: 'alert-success', timeout: 5000 });
-              this.router.navigate(['/dashboard']);
+            if (!res.data.locked || res.data.locked == undefined) {
+              this.authService.getUserByUid(uid)
+                .then(res => {
+                  this.sharedService.setUser(res.data);
+                  this.router.navigate(['/dashboard']);
+                })
             } else {
               self.flashMessage.show('Your account has been locked due to security reasons',
                 { cssClass: 'alert-danger', timeout: 5000 });
@@ -62,7 +64,6 @@ export class LoginComponent implements OnInit {
             if (self.sharedService.getRetry() == 5) {
               self.authService.lockUser(self.user.email)
                 .then(res => {
-                  console.log(res.message);
                 })
             }
           }
@@ -78,8 +79,17 @@ export class LoginComponent implements OnInit {
         this.user.email = res.auth.email;
         this.user.photoUrl = res.auth.photoURL;
         this.user.uid = res.uid;
-        this.authService.addUserToDatabase(this.user);
-        this.router.navigate(['/dashboard']);
+        this.user.password = null;
+        this.authService.addUserToDatabase(this.user)
+          .then(res => {
+            this.authService.getUserByUid(this.user.uid)
+              .then(res => {
+                if (res.success) {
+                  this.sharedService.setUser(res.data);
+                  this.router.navigate(['/dashboard']);
+                }
+              })
+          });
       })
       .catch(err => {
         self.flashMessage.show(err.message,
@@ -95,8 +105,17 @@ export class LoginComponent implements OnInit {
         this.user.email = res.auth.email;
         this.user.photoUrl = res.auth.photoURL;
         this.user.uid = res.uid;
-        this.authService.addUserToDatabase(this.user);
-        this.router.navigate(['/dashboard']);
+        this.user.password = null;
+        this.authService.addUserToDatabase(this.user)
+          .then(res => {
+            this.authService.getUserByUid(this.user.uid)
+              .then(res => {
+                if (res.success) {
+                  this.sharedService.setUser(res.data);
+                  this.router.navigate(['/dashboard']);
+                }
+              })
+          });
       })
       .catch(err => {
         self.flashMessage.show(err.message,

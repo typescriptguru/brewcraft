@@ -9,11 +9,13 @@ export class SharedService {
     constructor() {
     }
 
-    setUser(uid: string, email: string) {
-        localStorage.setItem('currentUser', JSON.stringify({
-            uid: uid,
-            email: email
-        }));
+    setUser(user: User) {
+        delete user.password;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+
+    getUser(): User {
+        return JSON.parse(localStorage.getItem('currentUser'));
     }
 
     getUserUid() {

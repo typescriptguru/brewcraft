@@ -1,0 +1,15 @@
+.widget {
+    padding: 25px;
+}
+
+.media.post .footer {
+    margin-top: 5px;
+}
+
+.media.post {
+    margin-bottom: 20px;
+}
+
+hr {
+    margin: 0 -25px;
+}

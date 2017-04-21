@@ -1,0 +1,35 @@
+<div class="widget">
+  <span class="widget-title"><img src="assets/img/Icons/Intro_Icon.png" alt="" style="margin-right: 10px;">Intro</span>
+
+  <hr>
+
+  <h6>{{user.fullname}}</h6>
+  <ul class="profile-info">
+    <li>
+      <div>
+        <img src="assets/img/Icons/beer_icon.png" alt="">
+      </div>
+      Craftman - joined {{joinDate}}
+    </li>
+    <li>
+      <div>
+        <img src="assets/img/Icons/map_icon.png" alt="">
+      </div>
+      Washington, DC
+    </li>
+    <li>
+      <div>
+        <img src="assets/img/Icons/birthday_icon.png" alt="">
+      </div>
+      01.01.1980
+    </li>
+    <li>
+      <div>
+        <i class="fa fa-rss" style="font-size: 12px; color: #999;"></i>
+      </div>
+      Followed by {{user.followed == undefined? 0: user.followed.length - 1}} people
+    </li>
+  </ul>
+
+  <a href="javascript:void(0)" class="orange"><img src="assets/img/Icons/edit_icon.png" alt="">&nbsp;&nbsp;edit</a>
+</div>

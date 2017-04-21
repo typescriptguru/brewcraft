@@ -1,0 +1,19 @@
+<h1>
+  {{mode}}
+</h1>
+<div id="chat-box">
+  <div class="media" *ngFor="let chat of chats">
+    <div class="media-left">
+      <a href="#">
+        <img class="media-object profile" [src]="chat.photoUrl" alt="profile">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{chat.senderName}} <small>{{chat.time | date:'medium'}}</small></h4>
+      {{chat.message}}
+    </div>
+  </div>
+</div>
+<hr>
+<textarea class="form-control" rows="3" id="message" [(ngModel)]="message"></textarea>
+<button class="btn btn-primary" (click)="sendChat()">Send</button>

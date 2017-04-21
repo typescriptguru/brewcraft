@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, User } from '../../../services/auth.service';
+import { AuthService, User, SharedService } from '../../../services';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,8 @@ export class SignupComponent implements OnInit {
 
   constructor(private authService: AuthService,
     public flashMessage: FlashMessagesService,
-    private router: Router ) { }
+    public sharedService: SharedService,
+    private router: Router) { }
 
   ngOnInit() {
   }
@@ -55,9 +56,11 @@ export class SignupComponent implements OnInit {
           this.user.joinDate = new Date();
           this.user.locked = false;
           this.authService.addUserToDatabase(this.user).then(res => {
-            this.flashMessage.show('You have been successfully registered ',
-              { cssClass: 'alert-success', timeout: 3000 });
-            this.router.navigate(['/dashboard']);
+            this.authService.getUserByUid(this.user.uid)
+              .then(res => {
+                this.sharedService.setUser(res.data);
+                this.router.navigate(['/dashboard']);
+              })
           });
         })
         .catch(function (error) {
@@ -71,8 +74,22 @@ export class SignupComponent implements OnInit {
     var self = this;
     this.authService.loginWithFacebook()
       .then(res => {
-        console.log('facebook login', res);
-        this.router.navigate(['/dashboard']);
+        this.user.credential_provider = "facebook";
+        this.user.fullname = res.auth.displayName;
+        this.user.email = res.auth.email;
+        this.user.photoUrl = res.auth.photoURL;
+        this.user.uid = res.uid;
+        this.user.password = null;
+        this.authService.addUserToDatabase(this.user)
+          .then(res => {
+            this.authService.getUserByUid(this.user.uid)
+              .then(res => {
+                if (res.success) {
+                  this.sharedService.setUser(res.data);
+                  this.router.navigate(['/dashboard']);
+                }
+              })
+          });
       })
       .catch(err => {
         self.flashMessage.show(err.message,
@@ -83,8 +100,22 @@ export class SignupComponent implements OnInit {
     var self = this;
     this.authService.loginWithGoogle()
       .then(res => {
-        console.log('google login', res);
-        this.router.navigate(['/dashboard']);
+        this.user.credential_provider = "google";
+        this.user.fullname = res.auth.displayName;
+        this.user.email = res.auth.email;
+        this.user.photoUrl = res.auth.photoURL;
+        this.user.uid = res.uid;
+        this.user.password = null;
+        this.authService.addUserToDatabase(this.user)
+          .then(res => {
+            this.authService.getUserByUid(this.user.uid)
+              .then(res => {
+                if (res.success) {
+                  this.sharedService.setUser(res.data);
+                  this.router.navigate(['/dashboard']);
+                }
+              })
+          });
       })
       .catch(err => {
         self.flashMessage.show(err.message,

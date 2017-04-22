@@ -17,7 +17,6 @@ export class ProfileWidgetComponent implements OnInit {
     this.user = this.sharedService.getUser();
     var date = new Date(this.user.joinDate);
     this.joinDate = date.getFullYear().toString();
-    console.log(this.user.followed);
   }
 
 }

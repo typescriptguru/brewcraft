@@ -16,7 +16,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
 // Service
-import { AuthService, AuthGuard, SharedService,  } from './services';
+import { AuthService, AuthGuard, SharedService, PostService } from './services';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 
 export const firebaseConfig = {
@@ -62,7 +62,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthService, AuthGuard, SharedService],
+  providers: [AuthService, AuthGuard, SharedService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

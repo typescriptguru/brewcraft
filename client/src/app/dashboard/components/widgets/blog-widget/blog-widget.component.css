@@ -13,3 +13,18 @@
 hr {
     margin: 0 -25px;
 }
+
+.none{
+    width: 100px;
+    height: 80px;
+    background: #ff5722;
+    text-align: center;
+    padding: 1px;
+    line-height: initial;
+    font-size: 56px;
+    color: white;
+}
+
+iframe {
+    border: none;
+}

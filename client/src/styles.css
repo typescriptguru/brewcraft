@@ -573,6 +573,10 @@ label.error {
   text-align: center;
 }
 
+iframe {
+    border: none !important;
+}
+
 @media screen and (min-width: 768px) { 
   .modal:before {
     display: inline-block;

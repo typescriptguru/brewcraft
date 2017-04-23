@@ -37,18 +37,25 @@
 .left {
     padding-left: 15px;
     padding-right: 20px;
-    width: 125px;
+    width: 135px;
     float: left;
 }
 
 .left img {
     width: 100px;
     margin-top: 10px;
-    display: block;
+    /*display: block;*/
+}
+
+.left iframe {
+    width: 100px;
+    margin-top: 10px;
+    border: none;
+    /*display: block;*/
 }
 
 .right {
-    width: calc(100% - 140px);
+    width: calc(100% - 150px);
     float: left;
 }
 

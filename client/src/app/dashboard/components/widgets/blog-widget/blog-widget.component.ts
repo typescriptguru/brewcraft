@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import { Post, PostService, User, AuthService, SharedService } from '../../../../services';
 import * as firebase from 'firebase';
 
@@ -20,7 +20,8 @@ export class BlogWidgetComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private sharedService: SharedService,
-    private postService: PostService) {
+    private postService: PostService,
+    private sanitizer: DomSanitizer) {
     this.db = firebase.database();
   }
 
@@ -44,8 +45,12 @@ export class BlogWidgetComponent implements OnInit {
         if (snapshot.val().hasOwnProperty(key)) {
           var element = snapshot.val()[key];
           count++;
+          if(element.mediaType == 'video'){
+             element.url =  this.sanitizer.bypassSecurityTrustResourceUrl(element.url + '?controls=0');
+          }
           if (count > this.posts.length)
             this.posts.push(element);
+          console.log(element.mediaType);
         }
       }
     })
@@ -66,5 +71,10 @@ export class BlogWidgetComponent implements OnInit {
       return diffMins + ' mins ago';
     else 
       return Math.floor(diffMs / 1000) + ' secs ago';
+  }
+
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

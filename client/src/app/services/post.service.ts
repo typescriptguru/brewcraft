@@ -20,7 +20,9 @@ export class PostService {
     let request_url = CONFIG.SERVER_URL + '/posts/add';
     return this.http.post(request_url, post)
       .toPromise()
-      .then(res => res.json());
+      .then(res => {
+        return res.json();
+      });
   }
 
   getPosts(max):Promise<any> {
@@ -37,5 +39,5 @@ export class Post {
   date: Date;
   content: string;
   mediaType: string; // "none", "photo", "video"
-  url: string;
+  url: any;
 }

@@ -7,8 +7,8 @@
       </div>
       <div class="modal-body">
         <button type="button" class="btn btn-orange" (click)="onUploadPhoto()">Upload a Photo</button>
-        <input type="text" class="form-control">
-        <button type="button" class="btn btn-orange" (click)="onLinkVideo()">Link to Youtube Video</button>
+        <input type="text" class="form-control" #video>
+        <button type="button" class="btn btn-orange" (click)="onLinkVideo(video.value)" data-dismiss="modal">Link to Youtube Video</button>
         <img [src]="mediaUrl" [hidden]="!mediaUrl"><br>
         <input type="file" imageUpload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions" [allowedExtensions]="['jpg', 'jpeg', 'png']">
         <p *ngIf="imageError">{{imageError}}</p>
@@ -38,6 +38,7 @@
           <div class="left">
             <strong>Create a Post</strong>
             <img [src]="mediaUrl" [hidden]="!mediaUrl" style="width: 100px"><br>
+            <iframe width="100" height="80" [src]="videoUrl" [hidden]="!videoUrl"></iframe>
           </div>
           <div class="right">
             <textarea class="post-content form-control" placeholder="Write your post here..." [(ngModel)]="postContent"></textarea>

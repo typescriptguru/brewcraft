@@ -22,8 +22,9 @@ var authenticate = require('./api/authenticate');
 var accountHandler = require('./api/accounts');
 var guildHanlder = require('./api/guild');
 var messageHandler = require('./api/message');
-var clientHanlder = require('./router.js');
 var postHandler = require('./api/post.js');
+var recipeHandler = require('./api/recipe.js');
+var clientHanlder = require('./router.js');
 
 var app = express();
 
@@ -81,6 +82,7 @@ app.use('/accounts', accountHandler);
 app.use('/guilds', guildHanlder);
 app.use('/messages', messageHandler);
 app.use('/posts', postHandler);
+app.use('/recipes', recipeHandler);
 app.use('/*', clientHanlder);
 
 var port = process.env.PORT || 80;

@@ -6,16 +6,22 @@
         <h4 class="modal-title">Upload a Media</h4>
       </div>
       <div class="modal-body">
-        <button type="button" class="btn btn-orange" (click)="onUploadPhoto()">Upload a Photo</button>
-        <input type="text" class="form-control" #video>
-        <button type="button" class="btn btn-orange" (click)="onLinkVideo(video.value)" data-dismiss="modal">Link to Youtube Video</button>
-        <img [src]="mediaUrl" [hidden]="!mediaUrl"><br>
-        <input type="file" imageUpload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions" [allowedExtensions]="['jpg', 'jpeg', 'png']">
+        <div class="fileUpload btn btn-orange">
+          <span>Upload a Photo</span>
+          <input type="file" imageUpload (imageSelected)="selected($event)" 
+            class="upload"
+            [resizeOptions]="resizeOptions" 
+            [allowedExtensions]="['jpg', 'jpeg', 'png']">
+        </div>
+        <input type="text" class="form-control" placeholder="Enter youtube video link..." #video>
+        <button type="button" class="btn btn-orange" (click)="onLinkVideo(video.value)">Link to Youtube Video</button>
+        <!--<img [src]="mediaUrl" [hidden]="!mediaUrl"><br>-->
         <p *ngIf="imageError">{{imageError}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <div *ngIf="errorMsg!=''" class="animated fadeIn"><label class="error">{{errorMsg}}</label></div>
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>-->
       </div>
     </div>
   </div>
@@ -51,15 +57,15 @@
         <p>guild_news</p>
       </div>
       <div class="tab-pane fade" id="browse_recipes">
-        <div class="media post">
+        <div class="media post" *ngFor="let recipe of recipes">
           <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="assets/img/Tips.jpg" alt="...">
+            <a href="javascript:void(0)">
+              <img class="media-object" [src]="recipe.photo" alt="...">
             </a>
           </div>
           <div class="media-body">
-            <h4 class="media-heading">Dark Beer X <small>&bull; by John Doe &bull; added 12 days ago</small></h4>
-            <span class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed... </span>
+            <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.fullname}} &bull; added {{getTimeDiff(recipe.created_date)}}</small></h4>
+            <span class="desc">{{recipe.note.length < 100? recipe.note: recipe.note.substr(0, 100) + '...'}} </span>
             <div class="footer">
               <span>
               <img src="assets/img/favorite_breweries.png" alt="">
@@ -69,28 +75,10 @@
             </div>
           </div>
         </div>
-        <div class="media post">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="assets/img/Tips.jpg" alt="...">
-            </a>
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">Dark Beer X <small>&bull; by John Doe &bull; added 12 days ago</small></h4>
-            <span class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed... </span>
-            <div class="footer">
-              <span>
-              <img src="assets/img/favorite_breweries.png" alt="">
-              0
-            </span>
-              <button class="btn btn-orange">Show recipe</button>
-            </div>
-          </div>
-        </div>
 
         <div class="input-box">
-          <input type="text" class="form-control" />
-          <button class="btn btn-orange big pull-right" style="margin-left: 5px;">Browse</button>
+          <input type="text" class="form-control" #recipeKeyword/>
+          <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="browseRecipes(recipeKeyword.value)">Browse</button>
         </div>
       </div>
     </div>

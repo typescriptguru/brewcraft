@@ -1,0 +1,25 @@
+<a class="btn btn-orange big" [routerLink]="['/dashboard/my-recipes/submit']" style="margin-bottom: 20px;">Add Recipe</a>
+
+<div class="card">
+  <legend>{{recipes?'Recipes':'You have no recipes'}}</legend>
+  <div class="media post" *ngFor="let recipe of recipes">
+    <div class="media-left">
+      <a>
+        <img class="media-object" [src]="recipe.photo" alt="...">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.brewer}} &bull; {{getTimeDiff(recipe.created_date)}}</small></h4>
+      <span class="desc">
+        {{recipe.note}}
+      </span>
+      <div class="footer">
+        <span>
+          <img src="assets/img/favorite_breweries.png" alt=""/>
+              356
+        </span>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>

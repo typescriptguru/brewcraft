@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import { Pipe, PipeTransform } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import { PostService, User, AuthService, SharedService } from '../../services';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PostService, User, AuthService, SharedService, Recipe, RecipeService } from '../../services';
 
 declare var $: any;
 
@@ -11,10 +11,13 @@ declare var $: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, PipeTransform  {
+export class HomeComponent implements OnInit, PipeTransform {
 
   postContent: string = "";
   mediaType: string = "none";
+  errorMsg: string = "";
+
+  recipes: Recipe[];
 
   resizeOptions: ResizeOptions = {
     resizeMaxHeight: 600,
@@ -29,10 +32,12 @@ export class HomeComponent implements OnInit, PipeTransform  {
     private authService: AuthService,
     private sharedService: SharedService,
     private postService: PostService,
+    private recipeService: RecipeService,
     private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
+    this.recipes = [];
   }
 
   post() {
@@ -43,7 +48,7 @@ export class HomeComponent implements OnInit, PipeTransform  {
     let mediaData = this.mediaUrl;
     if (this.mediaType == "video")
       mediaData = this._videoUrl;
-      
+
     this.postService.post(user, this.postContent, this.mediaType, mediaData)
       .then(res => {
         this.postContent = "";
@@ -55,18 +60,25 @@ export class HomeComponent implements OnInit, PipeTransform  {
 
   mediaUpload() {
     $('#media-upload').modal();
+    this.errorMsg = "";
   }
 
   onUploadPhoto() {
-
+    
   }
 
   onLinkVideo(url) {
+    let videoID = this.getYoutubeEmbedURL(url);
+    if (videoID == "error") {
+      this.errorMsg = "The video url is invalid.";
+      console.log(videoID);
+      return;
+    }
     this._videoUrl = 'https://www.youtube.com/embed/' + this.getYoutubeEmbedURL(url);
     this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this._videoUrl);
     this.mediaUrl = null;
     this.mediaType = "video";
-    console.log(this.videoUrl);
+    $('#media-upload').modal('toggle');
   }
 
   selected(imageResult: ImageResult) {
@@ -75,9 +87,11 @@ export class HomeComponent implements OnInit, PipeTransform  {
       || imageResult.dataURL;
     this.imageError = null;
     if (imageResult.error) {
-      this.imageError = imageResult.error;
+      this.errorMsg = "Only jpg, png, jpeg files are supported";
       return;
     }
+
+    $('#media-upload').modal('toggle');
     this.mediaUrl = src;
     this.videoUrl = null;
     this.mediaType = "photo";
@@ -96,5 +110,26 @@ export class HomeComponent implements OnInit, PipeTransform  {
 
   transform(url) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+  getTimeDiff(date: Date) {
+    var today = new Date();
+    var diffMs = (today.getTime() - new Date(date).getTime()); // milliseconds between now & Christmas
+
+    var diffDays = Math.floor(diffMs / 86400000); // days
+    var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+    if(diffDays != 0) 
+      return diffDays + ' days ago';
+    if(diffHrs != 0) 
+      return diffHrs + ' hours ago';
+    if(diffMins != 0)
+      return diffMins + ' mins ago';
+    else 
+      return Math.floor(diffMs / 1000) + ' secs ago';
+  }
+
+  browseRecipes(keyword) {
+    this.recipeService.searchRecipes(keyword)
+      .then(res => this.recipes = res.data);
   }
 }

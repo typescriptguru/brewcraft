@@ -8,13 +8,20 @@ var postRef = db.ref('posts');
 
 router.post('/add', (req, res) => {
     var post = postRef.push();
+
+    if(req.body.mediaType == "photo") {
+        var filepath = '/posts/' + post.key;
+        Util.uploadPhoto(req.body.url, filepath);
+        req.body.url = filepath;
+    }
+
     post.setWithPriority(req.body, 0 - Date.now())
-        .then(result => Util.responseHandler(res, true))
+        .then(result => Util.responseHandler(res, true, "", req.body))
         .catch(error => Util.responseHandler(res, false, error.message))
 });
 
 router.get('/get/:limit', (req, res) => {
-    console.log(req.params.limit);
+    console.log(req.params.limit);''
     postRef.orderByChild('date').limitToFirst(+req.params.limit).once('value', (snapshot) => {
         if(snapshot.val() == null)
             Util.responseHandler(res, false, 'There are no posts available');
@@ -28,5 +35,7 @@ router.get('/get/:limit', (req, res) => {
         Util.responseHandler(res, false, '', data)
     })
 })
+
+
 
 module.exports = router;

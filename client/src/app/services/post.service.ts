@@ -14,7 +14,7 @@ export class PostService {
     post.writerUid = writer.uid;
     post.date = new Date();
     post.content = content;
-    post.attachmentType = type;
+    post.mediaType = type;
     post.url = url;
 
     let request_url = CONFIG.SERVER_URL + '/posts/add';
@@ -36,6 +36,6 @@ export class Post {
   writerUid: string;
   date: Date;
   content: string;
-  attachmentType: string; // "none", "photo", "video"
+  mediaType: string; // "none", "photo", "video"
   url: string;
 }

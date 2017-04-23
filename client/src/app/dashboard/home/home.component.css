@@ -36,8 +36,15 @@
 
 .left {
     padding-left: 15px;
+    padding-right: 20px;
     width: 125px;
     float: left;
+}
+
+.left img {
+    width: 100px;
+    margin-top: 10px;
+    display: block;
 }
 
 .right {

@@ -15,6 +15,8 @@ export class BlogWidgetComponent implements OnInit {
   maxPosts: number = 4;
   posts: Post[];
 
+  busy: firebase.Promise<any>;
+
   constructor(
     private authService: AuthService,
     private sharedService: SharedService,
@@ -34,7 +36,7 @@ export class BlogWidgetComponent implements OnInit {
   getPosts() {
     this.postRef = this.db.ref('posts');
 
-    this.postRef.limitToFirst(+this.maxPosts).once('value', (snapshot) => {
+    this.busy = this.postRef.limitToFirst(+this.maxPosts).once('value', (snapshot) => {
       if (snapshot.val() == null)
         return;
       let count = 0;
@@ -59,7 +61,7 @@ export class BlogWidgetComponent implements OnInit {
     if(diffDays != 0) 
       return diffDays + ' days ago';
     if(diffHrs != 0) 
-      return diffHrs + 'hours ago';
+      return diffHrs + ' hours ago';
     if(diffMins != 0)
       return diffMins + ' mins ago';
     else 

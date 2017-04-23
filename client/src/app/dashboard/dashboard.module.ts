@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BusyModule, BusyConfig } from 'angular2-busy';
+import { ImageUploadModule } from 'ng2-imageupload';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AuthGuard, ChatService } from '../services/index';
 import { ChatComponent } from './components/chat/chat.component';
@@ -34,7 +37,7 @@ const appRoutes: Routes = [
       {
         path: 'guild',
         component: GuildComponent
-      }      
+      }
     ],
     canActivate: [AuthGuard]
   },
@@ -44,6 +47,14 @@ const appRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    BrowserModule,
+    ImageUploadModule,
+    // BusyModule.forRoot(
+    //   new BusyConfig({
+    //     message: '',
+    //   }
+    //   )
+    // ),
     RouterModule.forRoot(appRoutes)
   ],
   declarations: [ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent],

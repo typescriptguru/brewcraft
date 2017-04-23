@@ -24,7 +24,7 @@ function uploadPhoto(data, filepath) {
     data = data.replace(/^data:image\/jpeg;base64,/, "");
     data = data.replace(/^data:image\/png;base64,/, "");
     var imageBuffer = new Buffer(data, 'base64'); //console = <Buffer 75 ab 5a 8a ...
-    fs.writeFile('public/' + filepath, imageBuffer, function (err) {
+    fs.writeFile('public' + filepath, imageBuffer, function (err) {
         console.log(err);
         return filepath;
     });
@@ -42,6 +42,8 @@ function sendMail(to, subject, message) {
         // console.log(error, info);
     });
 }
+
+
 
 module.exports = {
     SERVER_URL: global.server_url,

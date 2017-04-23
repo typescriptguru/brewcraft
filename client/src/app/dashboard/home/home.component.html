@@ -1,3 +1,26 @@
+<div class="modal fade" id="media-upload">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Upload a Media</h4>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-orange" (click)="onUploadPhoto()">Upload a Photo</button>
+        <input type="text" class="form-control">
+        <button type="button" class="btn btn-orange" (click)="onLinkVideo()">Link to Youtube Video</button>
+        <img [src]="mediaUrl" [hidden]="!mediaUrl"><br>
+        <input type="file" imageUpload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions" [allowedExtensions]="['jpg', 'jpeg', 'png']">
+        <p *ngIf="imageError">{{imageError}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="left-sidebar" style="float: left;">
   <app-left-sidebar></app-left-sidebar>
 </div>
@@ -14,10 +37,11 @@
         <div class="row">
           <div class="left">
             <strong>Create a Post</strong>
+            <img [src]="mediaUrl" [hidden]="!mediaUrl" style="width: 100px"><br>
           </div>
           <div class="right">
             <textarea class="post-content form-control" placeholder="Write your post here..." [(ngModel)]="postContent"></textarea>
-            <button class="btn btn-orange">+ Photo/Video</button>
+            <button class="btn btn-orange" (click)="mediaUpload()">+ Photo/Video</button>
             <button class="btn btn-orange" (click)="post()">Post</button>
           </div>
         </div>

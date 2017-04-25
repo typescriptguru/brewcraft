@@ -55,15 +55,15 @@
     </div>
     <ul class="stats-list">
       <li class="active">
-        <span class="figure">{{user.brewdays}} <img src="assets/img/Icons/Brew_days_icon.png" alt="" style="width: 21px; margin-top: -6px;"></span><br>
+        <span class="figure">{{user.brewdays == undefined? 0: user.brewdays}} <img src="assets/img/Icons/Brew_days_icon.png" alt="" style="width: 21px; margin-top: -6px;"></span><br>
         Brew Days
       </li>
       <li>
-        <span class="figure">{{user.recipes}}<img src="assets/img/Icons/recipes_icon.png" alt="" style="width: 34px; margin-top: -6px; margin-left: 4px;"></span><br>
+        <span class="figure">{{user.recipes == undefined? 0: user.recipes}}<img src="assets/img/Icons/recipes_icon.png" alt="" style="width: 34px; margin-top: -6px; margin-left: 4px;"></span><br>
         Recipes
       </li>
       <li>
-        <span class="figure">{{user.opinions < 1000? user.opinions: floor(user.opinions/1000) + '.' + floor((user.opinions - 1000 * floor(user.opinions / 1000))/100) }} <small *ngIf="user.opinions > 999">K</small></span><br>
+        <span class="figure">{{user.opinions == undefined?0: (user.opinions < 1000? user.opinions: floor(user.opinions/1000) + '.' + floor((user.opinions - 1000 * floor(user.opinions / 1000))/100)) }} <small *ngIf="user.opinions > 999">K</small></span><br>
         Opinions
       </li>
     </ul>

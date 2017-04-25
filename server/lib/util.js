@@ -58,7 +58,7 @@ function updateLevel(uid) {
             level = 4;
         if(brewdays > 540 && recipes >= 270 && opinions >= 13500)
             level = 5;
-        db.ref('users/' + uid).set({level: level});
+        db.ref('users/' + uid).update({level: level});
     })
 }
 

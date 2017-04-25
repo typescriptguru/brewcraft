@@ -68,3 +68,34 @@
 .nav-tabs>li>a, .nav-tabs>li>a:focus {
     padding: 10px 25px;
 }
+
+.blog-widget {
+    padding: 25px;
+}
+
+.media.post .footer {
+    margin-top: 5px;
+}
+
+.media.post {
+    margin-bottom: 20px;
+}
+
+hr {
+    margin: 0 -25px;
+}
+
+.none{
+    width: 100px;
+    height: 80px;
+    background: #ff5722;
+    text-align: center;
+    padding: 1px;
+    line-height: initial;
+    font-size: 56px;
+    color: white;
+}
+
+iframe {
+    border: none;
+}

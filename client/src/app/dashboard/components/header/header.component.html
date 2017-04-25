@@ -38,7 +38,7 @@
 <div class="user-stats-bar">
   <div class="container">
     <div class="avatar">
-      <img src="/assets/img/Avatar/Avatar_Level_5.png" alt="">
+      <img [src]="'/assets/img/Avatar/Avatar_Level_' + (user.level==undefined?1:user.level) + '.png'" alt="">
     </div>
     <div class="user-name">
       <div>
@@ -55,15 +55,15 @@
     </div>
     <ul class="stats-list">
       <li class="active">
-        <span class="figure">6 <img src="assets/img/Icons/Brew_days_icon.png" alt="" style="width: 21px; margin-top: -6px;"></span><br>
+        <span class="figure">{{user.brewdays}} <img src="assets/img/Icons/Brew_days_icon.png" alt="" style="width: 21px; margin-top: -6px;"></span><br>
         Brew Days
       </li>
       <li>
-        <span class="figure">3<img src="assets/img/Icons/recipes_icon.png" alt="" style="width: 34px; margin-top: -6px; margin-left: 4px;"></span><br>
+        <span class="figure">{{user.recipes}}<img src="assets/img/Icons/recipes_icon.png" alt="" style="width: 34px; margin-top: -6px; margin-left: 4px;"></span><br>
         Recipes
       </li>
       <li>
-        <span class="figure">5,2 <small>K</small></span>
+        <span class="figure">{{user.opinions < 1000? user.opinions: floor(user.opinions/1000) + '.' + floor((user.opinions - 1000 * floor(user.opinions / 1000))/100) }} <small *ngIf="user.opinions > 999">K</small></span><br>
         Opinions
       </li>
     </ul>

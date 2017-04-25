@@ -2,6 +2,7 @@ var fs = require('graceful-fs');
 var randomAccessFile = require('random-access-file');
 var global = require('../global/config');
 const nodemailer = require('nodemailer');
+var db = require('firebase').database();
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -43,7 +44,23 @@ function sendMail(to, subject, message) {
     });
 }
 
-
+function updateLevel(uid) {
+    db.ref('users/' + uid).once('value', (snapshot) => {
+        var recipes = snapshot.val().recipes;
+        var brewdays = snapshot.val().brewdays;
+        var opinions = snapshot.val().opinions;
+        var level = 1;
+        if(brewdays > 20 && recipes >= 10 && opinions >= 500)
+            level = 2;
+        if(brewdays > 60 && recipes >= 30 && opinions >= 1500)
+            level = 3;
+        if(brewdays > 180 && recipes >= 90 && opinions >= 4500)
+            level = 4;
+        if(brewdays > 540 && recipes >= 270 && opinions >= 13500)
+            level = 5;
+        db.ref('users/' + uid).set({level: level});
+    })
+}
 
 module.exports = {
     SERVER_URL: global.server_url,
@@ -56,5 +73,6 @@ module.exports = {
     },
     uploadPhoto: uploadPhoto,
     sendMail: sendMail,
-    copyProps: copyProps
+    copyProps: copyProps,
+    updateLevel: updateLevel
 }

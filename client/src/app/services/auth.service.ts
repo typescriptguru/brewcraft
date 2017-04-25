@@ -89,6 +89,20 @@ export class AuthService {
         return res.json();
       })
   }
+
+  updatePhoto(photo) {
+    var url = CONFIG.SERVER_URL + '/accounts/update-photo/' + this.sharedService.getUserUid();
+    return this.http.put(url, {photo: photo})
+      .toPromise()
+      .then(res => res.json());
+  }
+
+  updateProfile(user: User) {
+    var url = CONFIG.SERVER_URL + '/accounts/update-profile/' + this.sharedService.getUserUid();
+    return this.http.put(url, {profile: user})
+      .toPromise()
+      .then(res => res.json());
+  }
 }
 
 export class User {
@@ -99,6 +113,7 @@ export class User {
   photoUrl: string;
   credential_provider: string;
   joinDate: Date;
+  birthday: Date;
   locked: Boolean;
   isAdmin: Boolean;
   following: Array<any>;
@@ -107,4 +122,8 @@ export class User {
   brewbook: Array<any>;
   isChief: Boolean;
   guildInvites: Array<any>;
+  brewdays: number = 0;
+  opinions: number = 0;
+  recipes: number = 0;
+  level: number = 1;
 }

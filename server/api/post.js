@@ -16,7 +16,13 @@ router.post('/add', (req, res) => {
     }
 
     post.setWithPriority(req.body, 0 - Date.now())
-        .then(result => Util.responseHandler(res, true, "", req.body))
+        .then(result => {
+            db.ref('users/' + req.body.writerUid).once('value', (snapshot) => {
+                db.ref('users/' + req.body.writerUid).update({opinions: snapshot.val().opinions ? snapshot.val().opinions + 1: 1})
+            })
+            Util.responseHandler(res, true, "", req.body);
+            Util.updateLevel(req.body.writerUid);
+        })
         .catch(error => Util.responseHandler(res, false, error.message))
 });
 

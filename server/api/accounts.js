@@ -194,7 +194,7 @@ router.post('/unfollow', (req, res) => {
         while ((pos = followingUser.following.indexOf(followedID)) > -1) {
             followingUser.following.splice(pos, 1);
         }
-        db.ref('users/' + followingID).update({following: followingUser.following});
+        db.ref('users/' + followingID).update({ following: followingUser.following });
     })
     db.ref('users/' + followedID).once('value', (snapshot) => {
         var followedUser = snapshot.val();
@@ -204,9 +204,26 @@ router.post('/unfollow', (req, res) => {
         while ((pos = followedUser.followed.indexOf(followingID)) > -1) {
             followedUser.followed.splice(pos, 1);
         }
-        db.ref('users/' + followedID).update({followed: followedUser.followed});
+        db.ref('users/' + followedID).update({ followed: followedUser.followed });
         Util.responseHandler(res, true);
     })
+})
+
+router.put('/update-photo/:uid', (req, res) => {
+    console.log('uid', req.params.uid);
+    var uid = req.params.uid;
+    var filepath = '/assets/gravatar/' + uid;
+    Util.uploadPhoto(req.body.photo, filepath);
+    
+    db.ref('users/' + uid).update({
+        photoUrl: filepath
+    }).then(result => Util.responseHandler(res, true, '', filepath));
+})
+
+router.put('/update-profile/:uid', (req, res) => {
+    var uid = req.params.uid;
+    console.log(req.body.profile);
+    db.ref('users/' + uid).update(req.body.profile).then(result => Util.responseHandler(res, true, '', result));
 })
 
 // Generates hash using bCrypt

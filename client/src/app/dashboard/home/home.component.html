@@ -8,10 +8,7 @@
       <div class="modal-body">
         <div class="fileUpload btn btn-orange">
           <span>Upload a Photo</span>
-          <input type="file" imageUpload (imageSelected)="selected($event)" 
-            class="upload"
-            [resizeOptions]="resizeOptions" 
-            [allowedExtensions]="['jpg', 'jpeg', 'png']">
+          <input type="file" imageUpload (imageSelected)="selected($event)" class="upload" [resizeOptions]="resizeOptions" [allowedExtensions]="['jpg', 'jpeg', 'png']">
         </div>
         <input type="text" class="form-control" placeholder="Enter youtube video link..." #video>
         <button type="button" class="btn btn-orange" (click)="onLinkVideo(video.value)">Link to Youtube Video</button>
@@ -83,7 +80,33 @@
       </div>
     </div>
   </div>
-  <app-blog-widget></app-blog-widget>
+
+  <!-- Blog Widget -->
+  <div class="blog-widget white">
+    <div class="media post" *ngFor="let post of posts">
+      <div class="media-left">
+        <a>
+          <img class="media-object" [src]="'assets/gravatar/' + post.writerUid" onError="this.onerror=null;this.src='/assets/gravatar/default.jpg';" />
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{post.writerName}} <small>&bull; {{getTimeDiff(post.date)}}</small></h4>
+        <span class="desc">
+        {{post.content.length < 100? post.content: post.content.substr(0, 100) + '...'}}
+      </span>
+        <div class="footer">
+          <span>
+          <img src="assets/img/favorite_breweries.png" alt=""/>
+              356
+        </span>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="loadMore()">Load more</button>
+    <div class="clearfix"></div>
+  </div>
+  <!-- End Blog Widget -->
 </div>
 <div class="right-sidebar" style="float: left;">
   <app-right-sidebar></app-right-sidebar>

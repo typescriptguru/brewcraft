@@ -4,8 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { ImageUploadModule } from 'ng2-imageupload';
+import {ImageCropperComponent, CropperSettings} from 'ng2-img-cropper';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { DatepickerModule } from 'angular2-material-datepicker'
 import { AuthGuard, ChatService, RecipeService } from '../services/index';
 import { ChatComponent } from './components/chat/chat.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -59,15 +61,10 @@ const appRoutes: Routes = [
     FormsModule,
     BrowserModule,
     ImageUploadModule,
-    // BusyModule.forRoot(
-    //   new BusyConfig({
-    //     message: '',
-    //   }
-    //   )
-    // ),
+    DatepickerModule,
     RouterModule.forRoot(appRoutes)
   ],
-  declarations: [ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent],
+  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent],
   providers: [ChatService, RecipeService]
 })
 export class DashboardModule { }

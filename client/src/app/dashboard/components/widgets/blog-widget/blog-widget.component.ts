@@ -37,7 +37,7 @@ export class BlogWidgetComponent implements OnInit {
   getPosts() {
     this.postRef = this.db.ref('posts');
 
-    this.busy = this.postRef.limitToFirst(+this.maxPosts).once('value', (snapshot) => {
+    this.postRef.limitToFirst(+this.maxPosts).on('value', (snapshot) => {
       if (snapshot.val() == null)
         return;
       let count = 0;

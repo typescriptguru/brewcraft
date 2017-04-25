@@ -599,6 +599,25 @@ iframe {
     padding: 15px;
 }
 
+.input-group-addon {
+    border: solid 1px #e1e1e1;
+    border-radius: 0px;
+    background: #eee;
+}
+
+.profile-photo {
+    border-radius: 50%;
+    border: solid 1px #ddd;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+
+.ng2-imgcrop canvas {
+    border: solid 1px black;
+}
+
 @media screen and (min-width: 768px) { 
   .modal:before {
     display: inline-block;

@@ -1,3 +1,55 @@
+<div class="modal fade" id="profile-box">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" (click)="closeProfileBox()">&times;</button>
+        <h4 class="modal-title">Edit Profile</h4>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!uploadPhoto">
+          <div class="col-md-5">
+            <div class="form-group" *ngIf="!uploadPhoto">
+              <img [src]="user.photoUrl" alt="" height="100" class="profile-photo">
+              <button class="btn btn-orange" (click)="uploadPhoto=true;">Upload different photo</button>
+            </div>
+          </div>
+          <div class="col-md-7">
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">@</span>
+              <input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname" [(ngModel)]="tempUser.fullname">
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">@</span>
+              <material-datepicker [(date)]="tempUser.birthday" aria-placeholder="Birthday"></material-datepicker>
+            </div>
+          </div>
+          <button class="btn btn-success cropperBtn text-center" (click)="saveProfile()"> Save </button>
+        </div>
+        <div class="form-group photoCropper" *ngIf="uploadPhoto">
+          <div class="col-sm-8 text-center">
+            <img-cropper #cropper [image]="data2" [settings]="cropperSettings2"></img-cropper>
+            <div class="fileUpload btn btn-primary">
+              <span>Change picture</span>
+              <input id="custom-input" type="file" class="upload" (change)="fileChangeListener($event)">
+            </div>
+          </div>
+          <div class="col-sm-4 text-center">
+            <img [src]="data2.image" class="img-responsive cropperImage img-thumbnail img-circle" [width]="cropperSettings2.croppedWidth" [height]="cropperSettings2.croppedHeight"
+              >
+            <button class="btn btn-success cropperBtn text-center" (click)="imageSave()"> Save </button>
+            <button class="btn btn-success cropperBtn text-center" (click)="cancelUploadPhoto()"> Cancel </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="errorMsg!=''" class="animated fadeIn"><label class="error">{{errorMsg}}</label></div>
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveProfile()">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="widget">
   <span class="widget-title"><img src="assets/img/Icons/Intro_Icon.png" alt="" style="margin-right: 10px;">Intro</span>
 
@@ -17,11 +69,11 @@
       </div>
       Washington, DC
     </li>
-    <li>
+    <li *ngIf="tempUser.birthday">
       <div>
         <img src="assets/img/Icons/birthday_icon.png" alt="">
       </div>
-      01.01.1980
+      {{tempUser.birthday | date: 'y.MM.dd'}}
     </li>
     <li>
       <div>
@@ -31,5 +83,5 @@
     </li>
   </ul>
 
-  <a href="javascript:void(0)" class="orange"><img src="assets/img/Icons/edit_icon.png" alt="">&nbsp;&nbsp;edit</a>
+  <a href="javascript:void(0)" class="orange" (click)="openProfileDialog()"><img src="assets/img/Icons/edit_icon.png" alt="">&nbsp;&nbsp;edit</a>
 </div>

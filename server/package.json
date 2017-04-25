@@ -53,7 +53,8 @@
     "passport-local": "^1.0.0",
     "passport-misfit": "^0.1.0",
     "random-access-file": "^1.4.0",
-    "serve-static": "^1.11.1"
+    "serve-static": "^1.11.1",
+    "wpapi": "^1.0.3"
   },
   "devDependencies": {
     "@types/node": "^6.0.69",

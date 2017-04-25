@@ -16,8 +16,9 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
 // Service
-import { AuthService, AuthGuard, SharedService, PostService, RecipeService } from './services';
+import { AuthService, AuthGuard, SharedService, PostService, RecipeService, WordpressService } from './services';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
+import { BlogComponent } from './components/blog/blog.component';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyD759e-Z7liSYamprfMPQ5rZO_NY-RELjE",
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'change-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'blogs', component: BlogComponent },
   { path: '**', redirectTo: '' },
 ]
 
@@ -52,6 +54,7 @@ const appRoutes: Routes = [
     SignupComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    BlogComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthService, AuthGuard, SharedService, PostService],
+  providers: [AuthService, AuthGuard, SharedService, PostService, WordpressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,13 @@
 <app-header></app-header>
 <div class="container">
-  <router-outlet></router-outlet>
+  <div class="left-sidebar" style="float: left;">
+    <app-left-sidebar></app-left-sidebar>
+  </div>
+  <div class="main-page">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="right-sidebar" style="float: left;">
+    <app-right-sidebar></app-right-sidebar>
+  </div>
 </div>
 <app-footer></app-footer>

@@ -7,26 +7,39 @@ var CONFIG = require('../global/config');
 
 var wp = new WPAPI({ endpoint: CONFIG.blog_endpoint });
 
-router.get('/get-tips', (req, res) => {
-    wp.categories().slug('tips')
+router.get('/get-by-slug/:slug', (req, res) => {
+    var slug = req.params.slug;
+    wp.categories().slug(slug)
         .then(function (cats) {
-            // .slug() queries will always return as an array
             var fictionCat = cats[0];
-            console.log(fictionCat);
-            wp.posts().categories( fictionCat.id )
-                .then((posts) => Util.responseHandler(res, true, '', posts));
-        })
-})
-
-router.get('/get-blogs', (req, res) => {
-    wp.categories().slug('blogs')
-        .then(function (cats) {
-            // .slug() queries will always return as an array
-            var fictionCat = cats[0];
-            console.log(fictionCat);
-            wp.posts().categories( fictionCat.id )
-                .then((posts) => Util.responseHandler(res, true, '', posts));
-        })
+            wp.posts().categories(fictionCat.id).perPage(3)
+                .then((posts) => {
+                    console.log(posts);
+                    var promises = [];
+                    var result = [];
+                    posts.forEach(function (post) {
+                        var promise = wp.media().id(post.featured_media);
+                        promises.push(promise);
+                        result.push({
+                            date: post.date,
+                            link: post.link,
+                            title: post.title.rendered,
+                            content: post.content.rendered,
+                            excerpt: post.excerpt.rendered,
+                        })
+                    }, this);
+                    Promise.all(promises)
+                        .then(media => {
+                            for (var i = 0; i < media.length; i++){
+                                result[i].featured_media = media[i].guid.rendered;
+                            }
+                            Util.responseHandler(res, true, '', result);
+                        })
+                        .catch(err => {
+                            Util.responseHandler(res, true, 'Featured Image Not Set', result);
+                        })
+                })
+        });
 })
 
 module.exports = router;

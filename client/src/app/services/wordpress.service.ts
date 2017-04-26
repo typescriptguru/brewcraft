@@ -10,7 +10,7 @@ export class WordpressService {
   ) { }
 
   getTips() {
-    var url = CONFIG.SERVER_URL + '/wordpress/get-tips';
+    var url = CONFIG.SERVER_URL + '/wordpress/get-by-slug/tips';
     
     return this.http.get(url)
       .toPromise()
@@ -18,7 +18,7 @@ export class WordpressService {
   }
 
   getBlogs() {
-    var url = CONFIG.SERVER_URL + '/wordpress/get-blogs';
+    var url = CONFIG.SERVER_URL + '/wordpress/get-by-slug/blogs';
     
     return this.http.get(url)
       .toPromise()
@@ -32,4 +32,5 @@ export class Article {
   title: string;
   content: string;
   excerpt: string;
+  featured_media: string;
 }

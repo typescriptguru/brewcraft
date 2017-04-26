@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WordpressService, Article, SharedService } from '../../../../services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tips-widget',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TipsWidgetComponent implements OnInit {
 
-  constructor() { }
+  tips: Article[];
+
+  constructor(
+    private wordpressService: WordpressService,
+    private sharedService: SharedService,
+    private router: Router) { }
 
   ngOnInit() {
+    this.getTips();
   }
 
+  getTips() {
+    this.wordpressService.getTips()
+      .then(res => {
+        this.tips = res.data;
+      });
+  }
+
+  showTip(tip: Article) {
+    this.sharedService.setArticle(tip);
+    this.router.navigate(['dashboard/tip']);
+  }
 }

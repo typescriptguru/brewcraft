@@ -24,90 +24,83 @@
   </div>
 </div>
 
-<div class="left-sidebar" style="float: left;">
-  <app-left-sidebar></app-left-sidebar>
-</div>
-<div class="main-page">
-  <div class="widget white">
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">General</a></li>
-      <li class=""><a href="#guild_news" data-toggle="tab" aria-expanded="false">Guild News</a></li>
-      <li class=""><a href="#browse_recipes" data-toggle="tab" aria-expanded="false">Browse Recipes</a></li>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-      <div class="clearfix"></div>
-      <div class="tab-pane fade active in" id="general">
-        <div class="row">
-          <div class="left">
-            <strong>Create a Post</strong>
-            <img [src]="mediaUrl" [hidden]="!mediaUrl" style="width: 100px"><br>
-            <iframe width="100" height="80" [src]="videoUrl" [hidden]="!videoUrl"></iframe>
-          </div>
-          <div class="right">
-            <textarea class="post-content form-control" placeholder="Write your post here..." [(ngModel)]="postContent"></textarea>
-            <button class="btn btn-orange" (click)="mediaUpload()">+ Photo/Video</button>
-            <button class="btn btn-orange" (click)="post()">Post</button>
-          </div>
+<div class="widget white">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">General</a></li>
+    <li class=""><a href="#guild_news" data-toggle="tab" aria-expanded="false">Guild News</a></li>
+    <li class=""><a href="#browse_recipes" data-toggle="tab" aria-expanded="false">Browse Recipes</a></li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <div class="clearfix"></div>
+    <div class="tab-pane fade active in" id="general">
+      <div class="row">
+        <div class="left">
+          <strong>Create a Post</strong>
+          <img [src]="mediaUrl" [hidden]="!mediaUrl" style="width: 100px"><br>
+          <iframe width="100" height="80" [src]="videoUrl" [hidden]="!videoUrl"></iframe>
+        </div>
+        <div class="right">
+          <textarea class="post-content form-control" placeholder="Write your post here..." [(ngModel)]="postContent"></textarea>
+          <button class="btn btn-orange" (click)="mediaUpload()">+ Photo/Video</button>
+          <button class="btn btn-orange" (click)="post()">Post</button>
         </div>
       </div>
-      <div class="tab-pane fade" id="guild_news">
-        <p>guild_news</p>
-      </div>
-      <div class="tab-pane fade" id="browse_recipes">
-        <div class="media post" *ngFor="let recipe of recipes">
-          <div class="media-left">
-            <a href="javascript:void(0)">
-              <img class="media-object" [src]="recipe.photo" alt="...">
-            </a>
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.fullname}} &bull; added {{getTimeDiff(recipe.created_date)}}</small></h4>
-            <span class="desc">{{recipe.note.length < 100? recipe.note: recipe.note.substr(0, 100) + '...'}} </span>
-            <div class="footer">
-              <span>
+    </div>
+    <div class="tab-pane fade" id="guild_news">
+      <p>guild_news</p>
+    </div>
+    <div class="tab-pane fade" id="browse_recipes">
+      <div class="media post" *ngFor="let recipe of recipes">
+        <div class="media-left">
+          <a href="javascript:void(0)">
+            <img class="media-object" [src]="recipe.photo" alt="...">
+          </a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.fullname}} &bull; added {{getTimeDiff(recipe.created_date)}}</small></h4>
+          <span class="desc">{{recipe.note.length < 100? recipe.note: recipe.note.substr(0, 100) + '...'}} </span>
+          <div class="footer">
+            <span>
               <img src="assets/img/favorite_breweries.png" alt="">
               356
             </span>
-              <button class="btn btn-orange">Show recipe</button>
-            </div>
+            <button class="btn btn-orange">Show recipe</button>
           </div>
         </div>
+      </div>
 
-        <div class="input-box">
-          <input type="text" class="form-control" #recipeKeyword/>
-          <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="browseRecipes(recipeKeyword.value)">Browse</button>
-        </div>
+      <div class="input-box">
+        <input type="text" class="form-control" #recipeKeyword/>
+        <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="browseRecipes(recipeKeyword.value)">Browse</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Blog Widget -->
-  <div class="blog-widget white">
-    <div class="media post" *ngFor="let post of posts">
-      <div class="media-left">
-        <a>
-          <img class="media-object" [src]="'assets/gravatar/' + post.writerUid" onError="this.onerror=null;this.src='/assets/gravatar/default.jpg';" />
-        </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{post.writerName}} <small>&bull; {{getTimeDiff(post.date)}}</small></h4>
-        <span class="desc">
+<!-- Blog Widget -->
+<div class="blog-widget white">
+  <div class="media post" *ngFor="let post of posts">
+    <div class="media-left">
+      <a>
+        <img class="media-object" [src]="'assets/gravatar/' + post.writerUid" onError="this.onerror=null;this.src='/assets/gravatar/default.jpg';"
+        />
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{post.writerName}} <small>&bull; {{getTimeDiff(post.date)}}</small></h4>
+      <span class="desc">
         {{post.content.length < 100? post.content: post.content.substr(0, 100) + '...'}}
       </span>
-        <div class="footer">
-          <span>
+      <div class="footer">
+        <span>
           <img src="assets/img/favorite_breweries.png" alt=""/>
               356
         </span>
-        </div>
       </div>
     </div>
-    <hr>
-    <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="loadMore()">Load more</button>
-    <div class="clearfix"></div>
   </div>
-  <!-- End Blog Widget -->
+  <hr>
+  <button class="btn btn-orange big pull-right" style="margin-left: 5px;" (click)="loadMore()">Load more</button>
+  <div class="clearfix"></div>
 </div>
-<div class="right-sidebar" style="float: left;">
-  <app-right-sidebar></app-right-sidebar>
-</div>
+<!-- End Blog Widget -->

@@ -1,30 +1,17 @@
-.widget {
-    padding: 25px;
-}
-
-.media.post .footer {
-    margin-top: 5px;
-}
-
-.media.post {
-    margin-bottom: 20px;
-}
-
-hr {
-    margin: 0 -25px;
-}
-
-.none{
-    width: 100px;
-    height: 80px;
-    background: #ff5722;
+.widget-content  {
+    background: #252525;
+    width: 100%;
     text-align: center;
-    padding: 1px;
-    line-height: initial;
-    font-size: 56px;
-    color: white;
 }
 
-iframe {
-    border: none;
+.widget-content img {
+    width: 100%;
+}
+
+.widget-title {
+    height: 40px;
+    background: #ffc107;
+    color: white;
+    font-size: 17px;
+    padding: 5px 14px;
 }

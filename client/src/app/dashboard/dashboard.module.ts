@@ -8,7 +8,7 @@ import {ImageCropperComponent, CropperSettings} from 'ng2-img-cropper';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { DatepickerModule } from 'angular2-material-datepicker'
-import { AuthGuard, ChatService, RecipeService,  } from '../services/index';
+import { AuthGuard, ChatService, RecipeService, SharedService } from '../services/index';
 import { ChatComponent } from './components/chat/chat.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DashboardComponent } from './dashboard.component';
@@ -27,7 +27,7 @@ import { BlogWidgetComponent } from './components/widgets/blog-widget/blog-widge
 import { GuildComponent } from './guild/guild.component';
 import { MyRecipeComponent } from './my-recipe/my-recipe.component';
 import { AddRecipeComponent } from './my-recipe/add-recipe/add-recipe.component';
-import { TipsComponent } from './tips/tips.component';
+import { TipComponent } from './tip/tip.component';
 
 
 const appRoutes: Routes = [
@@ -52,8 +52,8 @@ const appRoutes: Routes = [
         component: AddRecipeComponent
       },
       {
-        path: 'tips',
-        component: TipsComponent
+        path: 'tip',
+        component: TipComponent
       }
     ],
     canActivate: [AuthGuard]
@@ -69,7 +69,7 @@ const appRoutes: Routes = [
     DatepickerModule,
     RouterModule.forRoot(appRoutes)
   ],
-  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipsComponent],
-  providers: [ChatService, RecipeService, ]
+  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, ],
+  providers: [ChatService, RecipeService, SharedService]
 })
 export class DashboardModule { }

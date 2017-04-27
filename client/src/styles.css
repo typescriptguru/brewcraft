@@ -1,18 +1,25 @@
-html,
+html
+{
+    background-color: rgba(255, 87, 34, 0.9);
+    /*background: #f0e9d6;*/
+}
 body {
-    background: #f4ebd1;
+    /*background-color: rgba(255, 87, 34, 0.9);*/
+    background: #f0e9d6;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans');
 input.form-control,
+input[type=password],
 input[type=text],
+[type=password].form-control,
 [type=text].form-control,
 textarea,
 textarea.form-control {
     box-shadow: none;
     resize: none;
-    padding: 5px 10px;
+    padding: 5px 15px;
     border: solid 1px #e1e1e1;
     font-size: 13px;
     color: #888;
@@ -20,6 +27,7 @@ textarea.form-control {
 
 input.form-control:focus,
 input[type=text]:focus,
+input[type=password]:focus,
 [type=text].form-control:focus,
 textarea:focus,
 textarea.form-control:focus {
@@ -319,22 +327,38 @@ label.error {
     left: 0;
     z-index: 200;
     right: 0;
-    max-width: 460px;
+    max-width: 740px;
     width: 100%;
-    color: #666;
+    color: #818181;
     padding: 30px;
     border-radius: 3px;
     background: #FFF;
     margin-bottom: 100px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     overflow: hidden;
+    padding-bottom: 5px;
+}
+
+.box-image img {
+    width: 100%;
 }
 
 .box form {
-    max-width: 350px;
     width: 100%;
-    padding: 10px 0 0 0;
-    margin: 0 auto;
+    padding: 0px;    
+    padding-left: 20px;
+    max-width: 370px;
+    margin: 0px;
+}
+
+.box-image {
+    float: left;
+    width: 280px;
+}
+
+.box .form {
+    width: calc(100% - 280px);
+    float: left;
 }
 
 
@@ -594,6 +618,10 @@ label.error {
     display: inline-block;
 }
 
+.form-control {
+    height: 40px;
+}
+
 .modal {
     text-align: center;
 }
@@ -658,6 +686,16 @@ iframe {
     height: auto;
 }
 
+.input-group-addon {
+    padding: 6px 11px;
+}
+
+.input-group-addon i {
+    font-size: 21px;
+    color: white;
+    font-weight: bold;
+}
+
 @media screen and (min-width: 768px) {
     .modal:before {
         display: inline-block;
@@ -672,4 +710,37 @@ iframe {
     text-align: left;
     vertical-align: middle;
     margin-top: -100px;
+}
+
+.box .title {
+    font-size: 36px;
+    padding-left: 20px;
+}
+
+.box .title hr {
+    margin: 0;
+    height: 5px;
+    background: #ffc107;
+    border: none;
+    width: 30px;
+}
+
+.box .input-group {
+    margin-bottom: 15px;
+}
+
+.box .form-control {
+    font-size: 17px;
+}
+
+.box .big {
+    font-size: 17px;
+}
+
+.box img {
+    width: 100%;
+}
+
+.box .animated.fadeIn {
+    margin-top: -16px;
 }

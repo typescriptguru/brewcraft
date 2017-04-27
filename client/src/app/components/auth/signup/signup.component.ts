@@ -27,9 +27,9 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
 
-  signup(username, email, password, confirmpassword) {
+  signup(username, lastname, email, password, confirmpassword) {
 
-    console.log(password, confirmpassword)
+    console.log(password, confirmpassword, email)
     this.matchPassword = true;
     this.validPassword = true;
     this.emptyUsername = false;
@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.onEmail = re.test(this.user.email);
 
-    if (username == "" || username == undefined)
+    if (username == "" || username == undefined || lastname == "" || lastname==undefined)
       this.emptyUsername = true;
 
 
@@ -49,6 +49,7 @@ export class SignupComponent implements OnInit {
 
     if (this.onEmail && this.matchPassword && this.validPassword && !this.emptyPassword) {
       var self = this;
+      this.user.fullname = this.user.fullname + ' ' + lastname;
       this.authService.signupWithEmailAndPassword(this.user)
         .then((res) => {
           this.user.uid = res.uid;

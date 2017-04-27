@@ -16,6 +16,7 @@ router.post('/submit', (req, res) => {
     } else {
         req.body.photo = '/recipes/default.png';
     }
+    req.body.uid = recipe.key;
     recipe.setWithPriority(req.body, 0 - Date.now())
         .then(result => Util.responseHandler(res, true, "", req.body))
         .catch(error => Util.responseHandler(res, false, error.message))
@@ -29,6 +30,24 @@ router.get('/get', (req, res) => {
         } else {
             var recipes = [];
             console.log(snapshot.val());
+            for (var key in snapshot.val()) {
+                if (snapshot.val().hasOwnProperty(key)) {
+                    var element = snapshot.val()[key];
+                    recipes.push(element);
+                }
+            }
+            Util.responseHandler(res, true, '', recipes);
+        }        
+    })
+})
+
+router.get('/get/:uid', (req, res) => {
+    recipesRef.orderByKey().equalTo(req.params.uid).once('value', (snapshot) => {
+        if(snapshot.val() == null) {
+            Util.responseHandler(res, false);
+            return;
+        } else {
+            var recipes = [];
             for (var key in snapshot.val()) {
                 if (snapshot.val().hasOwnProperty(key)) {
                     var element = snapshot.val()[key];

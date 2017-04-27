@@ -1,6 +1,6 @@
 <a class="btn btn-orange big" [routerLink]="['/dashboard/my-recipes/submit']" style="margin-bottom: 20px;">Add Recipe</a>
 
-<div class="card">
+<div class="card white">
   <legend>{{recipes?'Recipes':'You have no recipes'}}</legend>
   <div class="media post" *ngFor="let recipe of recipes">
     <div class="media-left">
@@ -9,7 +9,9 @@
       </a>
     </div>
     <div class="media-body">
-      <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.brewer}} &bull; {{getTimeDiff(recipe.created_date)}}</small></h4>
+      <a [routerLink]="['/dashboard/recipe', recipe.uid]">
+        <h4 class="media-heading">{{recipe.name}} <small>&bull; by {{recipe.brewer}} &bull; {{getTimeDiff(recipe.created_date)}}</small></h4>
+      </a>
       <span class="desc">
         {{recipe.note}}
       </span>

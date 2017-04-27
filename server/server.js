@@ -25,6 +25,7 @@ var messageHandler = require('./api/message');
 var postHandler = require('./api/post.js');
 var recipeHandler = require('./api/recipe.js');
 var wordpressHandler = require('./api/wordpress.js');
+var brewdayHandler = require('./api/brewday.js');
 var clientHanlder = require('./router.js');
 
 var app = express();
@@ -85,6 +86,7 @@ app.use('/messages', messageHandler);
 app.use('/posts', postHandler);
 app.use('/recipes', recipeHandler);
 app.use('/wordpress', wordpressHandler);
+app.use('/brewday', brewdayHandler);
 app.use('/*', clientHanlder);
 
 var port = process.env.PORT || 80;

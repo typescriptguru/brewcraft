@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BusyModule, BusyConfig } from 'angular2-busy';
 import { ImageUploadModule } from 'ng2-imageupload';
-import {ImageCropperComponent, CropperSettings} from 'ng2-img-cropper';
+import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { DatepickerModule } from 'angular2-material-datepicker'
-import { AuthGuard, ChatService, RecipeService, SharedService } from '../services/index';
+import { AuthGuard, ChatService, RecipeService, SharedService, BrewService } from '../services/index';
 import { ChatComponent } from './components/chat/chat.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DashboardComponent } from './dashboard.component';
@@ -28,6 +28,9 @@ import { GuildComponent } from './guild/guild.component';
 import { MyRecipeComponent } from './my-recipe/my-recipe.component';
 import { AddRecipeComponent } from './my-recipe/add-recipe/add-recipe.component';
 import { TipComponent } from './tip/tip.component';
+import { RecipeComponent } from './my-recipe/recipe/recipe/recipe.component';
+import { BrewDayComponent } from './brew-day/brew-day.component';
+import { BrewComponent } from './brew-day/brew/brew.component';
 
 
 const appRoutes: Routes = [
@@ -54,6 +57,14 @@ const appRoutes: Routes = [
       {
         path: 'tip',
         component: TipComponent
+      },
+      {
+        path: 'recipe/:uid',
+        component: RecipeComponent
+      },
+      {
+        path: 'brew',
+        component: BrewComponent
       }
     ],
     canActivate: [AuthGuard]
@@ -69,8 +80,8 @@ const appRoutes: Routes = [
     DatepickerModule,
     RouterModule.forRoot(appRoutes)
   ],
-  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, ],
-  providers: [ChatService, RecipeService, SharedService],
+  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, RecipeComponent, BrewDayComponent, BrewComponent,],
+  providers: [ChatService, RecipeService, SharedService, BrewService],
   exports: [FooterComponent]
 })
 export class DashboardModule { }

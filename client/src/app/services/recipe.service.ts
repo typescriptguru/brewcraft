@@ -23,6 +23,13 @@ export class RecipeService {
       .then(res => res.json());
   }
 
+  getRecipe(uid: string) {
+    var url = CONFIG.SERVER_URL + '/recipes/get/' + uid;
+    return this.http.get(url)
+      .toPromise()
+      .then(res => res.json());    
+  }
+
   searchRecipes(keyword) {
     var url = CONFIG.SERVER_URL + '/recipes/search';
     return this.http.post(url, {
@@ -103,7 +110,7 @@ export class Recipe {
       name: "",
       description: "",
       step_temperature: "",
-      step_time: "",
+      step_time: 0,
       notes: "",
     }
   ]

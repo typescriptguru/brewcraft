@@ -70,6 +70,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, ],
-  providers: [ChatService, RecipeService, SharedService]
+  providers: [ChatService, RecipeService, SharedService],
+  exports: [FooterComponent]
 })
 export class DashboardModule { }

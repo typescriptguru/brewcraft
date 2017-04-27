@@ -3,6 +3,8 @@ body {
     background: #f4ebd1;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
 input.form-control,
 input[type=text],
 [type=text].form-control,
@@ -36,10 +38,36 @@ textarea.form-control:focus {
 
 .btn-orange:hover,
 .btn-orange:focus {
-   color: white;
+    color: white;
 }
 
 .btn-orange.big {
+    font-size: 18px;
+    padding: 2px 20px !important;
+}
+
+.btn-light-red {
+    background: #ff5722;
+    color: white;
+    border-radius: 0px;
+    box-shadow: none;
+    text-transform: none;
+    font-size: 17px;
+    padding: 3px 14px 1px !important;
+}
+
+.btn-light-red img {
+    width: 16px;
+    margin-top: -2px;
+    margin-right: 6px;
+}
+
+.btn-light-red:hover,
+.btn-light-red:focus {
+    color: white;
+}
+
+.btn-light-red.big {
     font-size: 18px;
     padding: 2px 20px !important;
 }
@@ -566,10 +594,8 @@ label.error {
     display: inline-block;
 }
 
-
-
 .modal {
-  text-align: center;
+    text-align: center;
 }
 
 iframe {
@@ -613,7 +639,6 @@ iframe {
     cursor: pointer;
 }
 
-
 .ng2-imgcrop canvas {
     border: solid 1px black;
 }
@@ -633,18 +658,18 @@ iframe {
     height: auto;
 }
 
-@media screen and (min-width: 768px) { 
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-  }
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
 }
 
 .modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-  margin-top: -100px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    margin-top: -100px;
 }

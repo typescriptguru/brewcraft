@@ -40,7 +40,7 @@ export class SharedService {
     }
 
     setArticle(article: Article) {
-        localStorage.setItem('artile', JSON.stringify(article));
+        localStorage.setItem('article', JSON.stringify(article));
         this.articleSubject.next(article);
     }
 

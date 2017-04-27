@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { RouterModule, Routes,  } from '@angular/router';
+import { RouterModule, Routes, } from '@angular/router';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
@@ -14,6 +14,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { FooterComponent } from './dashboard/components/footer/footer.component';
 
 // Service
 import { AuthService, AuthGuard, SharedService, PostService, RecipeService, WordpressService } from './services';

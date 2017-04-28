@@ -40,27 +40,27 @@ export class RecipeService {
 
 
 export class Recipe {
-  photo: String;
-  name: String = "";
-  style: String = "";
-  type: String = "";
-  batch_size: String = "";
-  boil_size: String = "";
-  boil_time: String = "";
-  end_of_boil_vol: String = "";
-  final_bottling_vol: String = "";
-  fermentation: String = "";
+  photo: string;
+  name: string = "";
+  style: string = "";
+  type: string = "";
+  batch_size: string = "";
+  boil_size: string = "";
+  boil_time: string = "";
+  end_of_boil_vol: string = "";
+  final_bottling_vol: string = "";
+  fermentation: string = "";
   created_date: Date = new Date();
-  brewer: String = "";
-  brewerID: String = "";
-  assist_brewer: String = "";
-  equipment: String = "";
-  efficiency: String = "";
-  mash_efficiency: String = "";
-  taste_rating: String = "";
-  note: String = "";
-  taste_note: String = "";
-  community_rating: String = "";
+  brewer: string = "";
+  brewerID: string = "";
+  assist_brewer: string = "";
+  equipment: string = "";
+  efficiency: string = "";
+  mash_efficiency: string = "";
+  taste_rating: string = "";
+  note: string = "";
+  taste_note: string = "";
+  community_rating: string = "";
   gravity_alcohol_content_color: Object = {
     est_original_gravity: "",
     est_final_gravity: "",

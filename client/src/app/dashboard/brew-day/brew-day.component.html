@@ -1,3 +1,25 @@
-<p>
-  brew-day works!
-</p>
+<div class="card white"> 
+  <legend>Your Brew</legend>
+  
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Recipe Name</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let brew of brews">
+          <td>{{brew.brew_date | date:'short'}}</td>
+          <td>{{brew.recipe_name}}</td>
+          <td>{{brew.status?'Completed':'In Progress'}}</td>
+          <td>
+            <button class="btn btn-orange" [disabled]="brew.status" (click)="completeBrew(brew)">Complete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+</div>

@@ -24,7 +24,6 @@ export class BlogWidgetComponent implements OnInit {
     this.wordpressService.getBlogs()
       .then(res => {
         this.tips = res.data;
-        console.log(this.tips);
       });
   }
 

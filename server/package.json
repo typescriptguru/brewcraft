@@ -46,6 +46,7 @@
     "mongoose-findorcreate": "^0.1.2",
     "morgan": "^1.7.0",
     "node-gyp": "^3.4.0",
+    "node-schedule": "^1.2.1",
     "nodemailer": "^2.7.2",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",

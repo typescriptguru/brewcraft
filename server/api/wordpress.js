@@ -14,7 +14,6 @@ router.get('/get-by-slug/:slug', (req, res) => {
             var fictionCat = cats[0];
             wp.posts().categories(fictionCat.id).perPage(3)
                 .then((posts) => {
-                    console.log(posts);
                     var promises = [];
                     var result = [];
                     posts.forEach(function (post) {

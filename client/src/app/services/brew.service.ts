@@ -40,6 +40,10 @@ export class BrewService {
     return this.brewSubject.asObservable();
   }
 
+  unsubscribe() {
+    this.brewSubject.unsubscribe();
+  }
+
   setStep(step) {
     var brew = this.getBrew();
     brew.step = step;
@@ -51,7 +55,7 @@ export class BrewService {
   processBrew() {
     var brew = this.getBrew();
     brew.status = IN_PROGRESS;
-    this.setBrew(brew);
+    localStorage.setItem('brew', JSON.stringify(brew));
     this.timer = setInterval(() => {
       var brew = this.getBrew();
       brew.time_counter--;
@@ -61,7 +65,7 @@ export class BrewService {
         clearInterval(this.timer);
       }
       this.setBrew(brew);
-    }, 1);
+    }, 10);
     localStorage.setItem('timer', JSON.stringify(this.timer));
   }
 
@@ -72,8 +76,9 @@ export class BrewService {
   isCompleted() {
     var brew = this.getBrew();
     var total_steps = brew.recipe.steps.length;
-    if (brew.step == total_steps + 1)
+    if (brew.step == total_steps + 1) {
       return true;
+    }
     else false;
   }
 
@@ -87,8 +92,27 @@ export class BrewService {
 
   submit() {
     var url = CONFIG.SERVER_URL + '/brewday/add';
-    var userID = this.sharedService.getUserUid();
-    return this.http.post(url, { userID: userID })
+    var user = this.sharedService.getUser();
+    var brewArchive = new BrewArchive();
+    brewArchive.recipe_name = this.getBrew().recipe.name;
+    brewArchive.brewer_uid = user.uid;
+    brewArchive.brewer_name = user.fullname;
+
+    return this.http.post(url, { brew: brewArchive })
+      .toPromise()
+      .then(res => res.json());
+  }
+
+  getBrewArchive() {
+    var url = CONFIG.SERVER_URL + '/brewday/get-archive/' + this.sharedService.getUserUid();
+    return this.http.get(url)
+      .toPromise()
+      .then(res => res.json());
+  }
+
+  completeBrew(brew: BrewArchive) {
+    var url = CONFIG.SERVER_URL + '/brewday/complete-brew';
+    return this.http.put(url, brew)
       .toPromise()
       .then(res => res.json());
   }
@@ -103,5 +127,26 @@ export class Brew {
     this.step = 1;
     this.status = NOT_STARTED;
     this.time_counter = 0;
+  }
+}
+
+export class BrewArchive {
+  uid: String;
+  recipe_name: string;
+  brewer_name: string;
+  brewer_uid: string;
+  brew_date: Date;
+  fermentation_date: Date;
+  carbonation_date: Date;
+  status: Boolean;
+
+  constructor() {
+    this.recipe_name = "";
+    this.brewer_name = "";
+    this.brewer_uid = "";
+    this.brew_date = new Date();
+    this.fermentation_date = new Date();
+    this.carbonation_date = new Date();
+    this.status = false;
   }
 }

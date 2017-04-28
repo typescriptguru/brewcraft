@@ -60,7 +60,6 @@ export class ProfileWidgetComponent implements OnInit {
   ngOnInit() {
     this.user = this.sharedService.getUser();
     this.tempUser = this.sharedService.getUser();
-    console.log(this.tempUser);
     if(this.tempUser.birthday != undefined)
       this.tempUser.birthday = new Date(this.tempUser.birthday);
     var date = new Date(this.user.joinDate);

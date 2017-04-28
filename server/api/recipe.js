@@ -29,7 +29,6 @@ router.get('/get', (req, res) => {
             return;
         } else {
             var recipes = [];
-            console.log(snapshot.val());
             for (var key in snapshot.val()) {
                 if (snapshot.val().hasOwnProperty(key)) {
                     var element = snapshot.val()[key];

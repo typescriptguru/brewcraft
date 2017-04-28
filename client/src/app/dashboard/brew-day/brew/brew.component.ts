@@ -12,6 +12,8 @@ export class BrewComponent implements OnInit {
   brew: Brew;
   completed: boolean = false;
 
+  brewSubscription: any;
+
   constructor(
     private brewService: BrewService
   ) { }
@@ -19,7 +21,7 @@ export class BrewComponent implements OnInit {
   ngOnInit() {
     this.recipe = this.brewService.getRecipe();
     this.brew = this.brewService.getBrew();
-    this.brewService.brewListner().subscribe(res => {
+    this.brewSubscription = this.brewService.brewListner().subscribe(res => {
       this.brew = res;
       if(this.brewService.isCompleted()) {
         this.completed = true;
@@ -33,5 +35,9 @@ export class BrewComponent implements OnInit {
   }
   stopBrew() {
     this.brewService.stopBrew();
+  }
+
+  ngOnDestroy() {
+    this.brewSubscription.unsubscribe();
   }
 }

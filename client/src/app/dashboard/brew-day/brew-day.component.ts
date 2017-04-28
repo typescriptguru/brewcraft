@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BrewArchive, BrewService} from '../../services';
 
 @Component({
   selector: 'app-brew-day',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BrewDayComponent implements OnInit {
 
-  constructor() { }
+  brews: BrewArchive[];
+
+  constructor(
+    private brewService: BrewService
+  ) { }
 
   ngOnInit() {
+    this.brewService.getBrewArchive()
+      .then(res => {
+        this.brews = res.data;
+        console.log(this.brews);
+      })
   }
-
+  completeBrew(brew: BrewArchive) {
+    this.brewService.completeBrew(brew)
+      .then(res => {brew.status = true;})
+  }
 }

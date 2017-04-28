@@ -32,7 +32,7 @@ export class VideosWidgetComponent implements OnInit {
       for (var key in snapshot.val()) {
         if (snapshot.val().hasOwnProperty(key)) {
           url = snapshot.val()[key].url;
-          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url + '?controls=0');
+          this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url + '?controls=1');
         }
       }
     })

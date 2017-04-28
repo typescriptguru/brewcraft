@@ -52,7 +52,7 @@ router.get('/send-password-reset-mail/:email', (req, res) => {
         })
         .catch(result => {
             console.log(result);
-            Util.responseHandler(res, false, 'You have exceeded reset password limit');
+            Util.responseHandler(res, false, result.message);
         })
 })
 

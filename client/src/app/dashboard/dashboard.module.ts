@@ -65,6 +65,10 @@ const appRoutes: Routes = [
       {
         path: 'brew',
         component: BrewComponent
+      },
+      {
+        path: 'brew-day',
+        component: BrewDayComponent
       }
     ],
     canActivate: [AuthGuard]

@@ -79,4 +79,18 @@ router.post('/search', (req, res) => {
     })
 })
 
+router.get('/get-beer-types', (req, res) => {
+
+    recipesRef.once('value', (snapshot) => {
+        var recipes = snapshot.val();
+        var result = [];
+        for (var key in recipes) {
+            if (recipes.hasOwnProperty(key)) {
+                var recipe = recipes[key];
+            }
+        }
+        Util.responseHandler(res, true, "Success", result);
+    })
+})
+
 module.exports = router;

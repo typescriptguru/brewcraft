@@ -159,6 +159,13 @@ textarea.form-control:focus {
     background: rgba(0, 0, 0, 0) url("/assets/img/Footer.jpg") repeat scroll center center / cover;
 }
 
+.blank-img {
+    position: relative;
+    height: 300px;
+    box-shadow: 2px 2px 10px #888 inset;
+    background: white;
+}
+
 .footer-logo {
     background: white;
     margin: 0 auto;
@@ -696,6 +703,15 @@ iframe {
     font-weight: bold;
 }
 
+.paragraph .content {
+    font-size: 17px;
+    margin-bottom: 23px;
+}
+
+.header-img .paragraph .content {
+    color: white;
+}
+
 @media screen and (min-width: 768px) {
     .modal:before {
         display: inline-block;
@@ -743,4 +759,61 @@ iframe {
 
 .box .animated.fadeIn {
     margin-top: -16px;
+}
+
+ng-select > div {
+    border: none !important;
+    background: #ffc107;
+}
+
+ng-select > div > div.single > div.placeholder {
+    color: white !important;
+    line-height:38px !important;
+    font-size: 18px;
+}
+
+ng-select > div > div.single > div.clear, ng-select > div > div.single > div.toggle {
+    color: white !important;
+    padding-top: 4px;
+}
+
+ng-select > div > div.single > div.clear:hover, ng-select > div > div.single > div.toggle:hover {
+    background: #ffc107 !important;
+}
+
+select-dropdown .highlighted {
+    background: #ffefc1 !important;
+    color: black !important;
+}
+select-dropdown > div .options ul li {
+    border-bottom: solid 1px #ccc;
+}
+select-dropdown > div .options ul li:first-child {
+    border-top: solid 1px #ccc;
+}
+ng-select > div > div.single {
+    height: 37px !important;
+}
+
+ng-select li .strong {
+    font-weight: bold;
+    color: black;
+}
+
+ng-select > div > div.single > div.value, ng-select > div > div.single > div.placeholder {
+    padding: 0 18px !important;
+}
+
+ng-select > div > div.single > div.value {
+    color: white;
+    padding-top: 4px !important;
+}
+
+ng-select > div > div.single > div.value > span.strong {
+    font-size: 18px;
+}
+
+ng-select > div.disabled {
+    background-color: #ffecb4 !important;
+    color: white !important;
 }

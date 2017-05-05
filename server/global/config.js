@@ -1,7 +1,7 @@
 module.exports = {
     // server_url: 'http://localhost/',
     server_url: 'http://brewcraft.io/',
-    blog_endpoint: 'http://34.203.223.229/wp-json',
+    blog_endpoint: 'http://52.91.23.66/wp-json',
 
     FACEBOOK_APP_ID: '2227138087511968',
     FACEBOOK_APP_SECRET: 'de3f155f328537e665981f409554e23b',

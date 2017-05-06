@@ -44,6 +44,11 @@ textarea.form-control:focus {
     padding: 2px 15px !important;
 }
 
+.btn {
+    position: relative;
+    z-index: 100;
+}
+
 .btn-orange:hover,
 .btn-orange:focus {
     color: white;

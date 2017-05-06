@@ -11,21 +11,21 @@
         </div>
         <div class="step-content">
           <div class="step-desc">// Select Beer Type</div>
-          <form style="max-width:800px; margin-top: 15px" [formGroup]="form">
-            <ng-select [options]="options0" [multiple]="false" placeholder="Select one" formControlName="selectSingle" [allowClear]="false"
-              (opened)="onSingleOpened()" (closed)="onSingleClosed()" (selected)="onSingleSelected($event)" (deselected)="onSingleDeselected($event)">
+          <form style="max-width:800px; margin-top: 15px">
+            <ng-select name="beer-style" [(ngModel)]="style" [options]="stylesOptions" [multiple]="false" placeholder="Select one"  [allowClear]="false"
+              (selected)="onStyleSelected($event)">
             </ng-select>
 
             <div style="margin:10px 0 20px 0;color:#666;font-size:11pt;font-style:italic;">
-              Selected option id: {{form.value['selectSingle']}}
+              Selected option id: {{style}}
             </div>
           </form>
         </div>
       </div>
       <div class="col-md-3 text-center next-step" style="padding: 0">
         <div class="linking-bar"></div>
-        <button class="btn btn-orange big">Next Step</button>
-        <div class="linking-bar right disabled"></div>
+        <button class="btn btn-orange big" (click)="enableNextStep()">Next Step</button>
+        <div [ngClass]="{'linking-bar': true, 'right': true, 'disabled': !isNextStep}" class="linking-bar right disabled"></div>
       </div>
       <div class="step1 col-md-4">
         <div class="step-title">
@@ -34,14 +34,14 @@
         </div>
         <div class="step-content">
           <div class="step-desc">// Select available beer</div>
-          <form style="max-width:800px; margin-top: 15px" [formGroup]="form">
-            <ng-select [options]="options0" [multiple]="false" placeholder="Select one" formControlName="selectSingle" [allowClear]="true"
-              [disabled]="true" (opened)="onSingleOpened()" (closed)="onSingleClosed()" (selected)="onSingleSelected($event)"
-              (deselected)="onSingleDeselected($event)">
+          <form style="max-width:800px; margin-top: 15px">
+            <ng-select [options]="availableRecipesOptions" name="recipe" [(ngModel)]="recipe" [multiple]="false" placeholder="Select one"  [allowClear]="false"
+              [disabled]="!isNextStep" (selected)="onRecipeSelected($event)" #recipeSelect
+              >
             </ng-select>
 
             <div style="margin:10px 0 20px 0;color:#666;font-size:11pt;font-style:italic;">
-              Selected option id: {{form.value['selectSingle']}}
+              Selected option id: 
             </div>
           </form>
         </div>

@@ -36,6 +36,15 @@ export class RecipeService {
       keyword: keyword
     }).toPromise().then(res => res.json());
   }
+
+  getStyles(recipes: Recipe[] ) {
+    var styles = [];
+    recipes.forEach(recipe => {
+      if(styles.indexOf(recipe.style) == -1)
+        styles.push(recipe.style);
+    });
+    return styles.sort();
+  }
 }
 
 

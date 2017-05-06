@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Recipe, RecipeService, BrewService } from '../../../services';
 
 @Component({
   selector: 'app-recipe-select',
@@ -8,40 +8,87 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RecipeSelectComponent implements OnInit {
 
-  form: FormGroup;
-  options0: Array<any> = [];
-  selection: Array<string>;
+  availableRecipesOptions: Array<any> = [];
+  stylesOptions: Array<any> = [];
 
-  @ViewChild('preSingle') preSingle;
+  recipes: Recipe[];
+  availableRecipes: Recipe[];
 
-  constructor() { 
-    let numOptions = 100;
-    let opts = new Array(numOptions);
+  style: String;
+  recipe: Recipe;
 
-    for (let i = 0; i < numOptions; i++) {
-      opts[i] = {
-        value: i.toString(),
-        label: '<span class="strong">Beer Type ' + (i + 1).toString() + ' - </span>' + 'Lorem Ipsum'
-      };
-    }
+  isNextStep: Boolean = false;
 
-    this.options0 = opts.slice(0);
+  @ViewChild('recipeSelect') recipeSelect:any;
+
+  constructor(
+    private recipeService: RecipeService,
+    private brewService: BrewService
+  ) {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({});
-    this.form.addControl('selectSingle', new FormControl(''));;
+    this.recipeService.getRecipes()
+      .then(res => {
+        this.recipes = res.data;
+
+        var styles = this.recipeService.getStyles(this.recipes);
+        this.stylesOptions = new Array(styles.length);
+        for (let i = 0; i < styles.length; i++) {
+          this.stylesOptions[i] = {
+            value: styles[i],
+            label: '<span class="strong">Beer Type ' + (i + 1).toString() + ' - </span>' + styles[i]
+          };
+        }
+        var self = this;
+        setTimeout(function () {
+          self.style = self.stylesOptions[0].value;
+        }, 100);
+        
+      });
   }
-  onSingleOpened() {
+  onStyleSelected(item) {
+    this.availableRecipes = [];
+    this.availableRecipesOptions = [];
+    var style = item.value;
+    this.recipes.forEach(recipe => {
+      if (recipe.style == style)
+        this.availableRecipes.push(recipe);
+    });
+    this.availableRecipes.forEach(recipe => {
+      this.availableRecipesOptions.push({
+        value: recipe,
+        label: recipe.name
+      });
+    });
   }
 
-  onSingleClosed() {
+  onRecipeSelected(item) {
+    this.brewService.setRecipe(this.recipe);
   }
 
-  onSingleSelected(item) {
+  enableNextStep() {
+    this.isNextStep = true;
+    this.updateAvailableRecipes();
   }
 
-  onSingleDeselected(item) {
+  updateAvailableRecipes() {
+    this.availableRecipes = [];
+    this.availableRecipesOptions = [];
+    this.recipes.forEach(recipe => {
+      if (recipe.style == this.style)
+        this.availableRecipes.push(recipe);
+    });
+    this.availableRecipes.forEach(recipe => {
+      this.availableRecipesOptions.push({
+        value: recipe,
+        label: recipe.name
+      });
+    });
+    var self = this;
+    setTimeout(function () {
+      self.recipeSelect.select(self.availableRecipesOptions[0].value);
+    }, 100);
   }
 
   private scrollToBottom(elem) {

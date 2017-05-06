@@ -29,15 +29,18 @@ export class BrewComponent implements OnInit {
       }
     })
   }
-  processBrew(step) {
-    this.brewService.setStep(step);
-    this.brewService.processBrew();
-  }
-  stopBrew() {
-    this.brewService.stopBrew();
-  }
 
-  ngOnDestroy() {
-    this.brewSubscription.unsubscribe();
-  }
+
+
+  // processBrew(step) {
+  //   this.brewService.setStep(step);
+  //   this.brewService.processBrew();
+  // }
+  // stopBrew() {
+  //   this.brewService.stopBrew();
+  // }
+
+  // ngOnDestroy() {
+  //   this.brewSubscription.unsubscribe();
+  // }
 }

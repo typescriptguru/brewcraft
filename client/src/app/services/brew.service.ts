@@ -29,6 +29,14 @@ export class BrewService {
   setRecipe(recipe: Recipe) {
     var brew = new Brew();
     brew.recipe = recipe;
+    var total_timer = 0;
+    brew.recipe.steps.forEach(step => {
+      total_timer += +step.step_time;
+    });
+    total_timer *= 60;
+    brew.total_time_counter = total_timer;
+    brew.step = 1;
+    brew.step_time_counter = brew.recipe.steps[1 - 1].step_time * 60;
     this.setBrew(brew);
   }
 
@@ -47,36 +55,69 @@ export class BrewService {
   setStep(step) {
     var brew = this.getBrew();
     brew.step = step;
-    brew.status = NOT_STARTED;
-    brew.time_counter = brew.recipe.steps[step - 1].step_time * 60;
+    brew.status = IN_PROGRESS;
+    brew.step_time_counter = brew.recipe.steps[step - 1].step_time * 60;
     this.setBrew(brew);
   }
 
   processBrew() {
     var brew = this.getBrew();
     brew.status = IN_PROGRESS;
-    localStorage.setItem('brew', JSON.stringify(brew));
+
+    var self = this;
     this.timer = setInterval(() => {
-      var brew = this.getBrew();
-      brew.time_counter--;
-      if (brew.time_counter == 0) {
-        brew.status = NOT_STARTED;
-        brew.step++;
-        clearInterval(this.timer);
-      }
+      brew.total_time_counter--;
+      brew.step_time_counter--;
+
       this.setBrew(brew);
-    }, 10);
-    localStorage.setItem('timer', JSON.stringify(this.timer));
+      if (self.isCompleted()) {
+        brew.status = COMPLETED;
+        clearInterval(self.timer);
+        this.setBrew(brew);
+      }
+
+      if (brew.step_time_counter == 0) {
+        brew.step++;
+        if (!self.isCompleted())
+          brew.step_time_counter = brew.recipe.steps[brew.step - 1].step_time * 60;
+        this.setBrew(brew);
+      }
+
+    }, 100);
   }
 
-  stopBrew() {
+  clearBrew() {
+    localStorage.removeItem('brew');
+  }
+
+  pauseBrew() {
+    var brew = this.getBrew();
+    brew.status = PAUSE;
+    this.setBrew(brew);
     clearInterval(this.timer);
+  }
+
+  resetBrew() {
+    var brew = this.getBrew();
+    brew.status = NOT_STARTED;
+    this.setBrew(brew);
+    clearInterval(this.timer);
+    var brew = this.getBrew();
+    var total_timer = 0;
+    brew.recipe.steps.forEach(step => {
+      total_timer += +step.step_time;
+    });
+    total_timer *= 60;
+    brew.total_time_counter = total_timer;
+    brew.step = 1;
+    brew.step_time_counter = brew.recipe.steps[1 - 1].step_time * 60;
+    this.setBrew(brew);
+    return brew;
   }
 
   isCompleted() {
     var brew = this.getBrew();
-    var total_steps = brew.recipe.steps.length;
-    if (brew.step == total_steps + 1) {
+    if (brew.total_time_counter == 0) {
       return true;
     }
     else false;
@@ -85,6 +126,7 @@ export class BrewService {
   getBrew(): Brew {
     return JSON.parse(localStorage.getItem('brew'));
   }
+
   setBrew(brew) {
     localStorage.setItem('brew', JSON.stringify(brew));
     this.brewSubject.next(brew);
@@ -122,11 +164,13 @@ export class Brew {
   recipe: Recipe;
   step: number;
   status: number;
-  time_counter: number;
+  step_time_counter: number;
+  total_time_counter: number;
   constructor() {
     this.step = 1;
     this.status = NOT_STARTED;
-    this.time_counter = 0;
+    this.step_time_counter = 0;
+    this.total_time_counter = 0;
   }
 }
 

@@ -32,6 +32,8 @@
 .step {
     background: white;
     padding-bottom: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .step-desc {

@@ -102,6 +102,14 @@ h3.recipe_steps {
     width: 22px;
 }
 
-.step span.pending {
+.status-img img.paused {
+    width: 22px;
+}
 
+.step-list .step span.pending {
+    color: #ff5722;
+}
+
+.step-list .step {
+    transition: all 1.5s;
 }

@@ -30,11 +30,14 @@ import { GuildComponent } from './guild/guild.component';
 import { MyRecipeComponent } from './my-recipe/my-recipe.component';
 import { AddRecipeComponent } from './my-recipe/add-recipe/add-recipe.component';
 import { TipComponent } from './tip/tip.component';
-import { RecipeComponent } from './my-recipe/recipe/recipe/recipe.component';
+import { RecipeComponent } from './my-recipe/recipe/recipe.component';
 import { BrewDayComponent } from './brew-day/brew-day.component';
 import { BrewComponent } from './brew-day/brew/brew.component';
 import { RecipeSelectComponent } from './brew-day/recipe-select/recipe-select.component';
 import { BrewTimerComponent } from './brew-day/brew-timer/brew-timer.component';
+import { RecipesComponent } from './my-recipe/recipes/recipes.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SearchbarComponent } from './my-recipe/searchbar/searchbar.component';
 
 
 const appRoutes: Routes = [
@@ -42,8 +45,9 @@ const appRoutes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: '',
+        path: 'home',
         component: HomeComponent
       },
       {
@@ -51,20 +55,8 @@ const appRoutes: Routes = [
         component: GuildComponent
       },
       {
-        path: 'my-recipes',
-        component: MyRecipeComponent
-      },
-      {
-        path: 'my-recipes/submit',
-        component: AddRecipeComponent
-      },
-      {
         path: 'tip',
         component: TipComponent
-      },
-      {
-        path: 'recipe/:uid',
-        component: RecipeComponent
       },
       {
         path: 'brew',
@@ -76,6 +68,21 @@ const appRoutes: Routes = [
   {
     path: 'brew-day',
     component: BrewDayComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'my-recipes',
+    component: MyRecipeComponent,
+    children: [
+      {
+        path: '',
+        component: RecipesComponent
+      },
+      {
+        path: ':uid',
+        component: RecipeComponent
+      }
+    ],
     canActivate: [AuthGuard]
   }
 ]
@@ -91,7 +98,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, RecipeComponent, BrewDayComponent, BrewComponent, RecipeSelectComponent, BrewTimerComponent,],
+  declarations: [ImageCropperComponent, ChatComponent, HeaderComponent, DashboardComponent, FooterComponent, HomeComponent, LeftSidebarComponent, RightSidebarComponent, ProfileWidgetComponent, GuildWidgetComponent, BrewOfTheDayWidgetComponent, TipOfTheDayWidgetComponent, VideosWidgetComponent, TipsWidgetComponent, FavoriteBrewWidgetComponent, BlogWidgetComponent, GuildComponent, MyRecipeComponent, AddRecipeComponent, TipComponent, RecipeComponent, BrewDayComponent, BrewComponent, RecipeSelectComponent, BrewTimerComponent, RecipesComponent, NavbarComponent, SearchbarComponent,],
   providers: [ChatService, RecipeService, SharedService, BrewService],
   exports: [FooterComponent]
 })

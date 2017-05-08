@@ -9,7 +9,7 @@ var recipesRef = db.ref('recipes');
 router.post('/submit', (req, res) => {
     var recipe = recipesRef.push();
 
-    if(req.body.photo) {
+    if (req.body.photo) {
         var filepath = '/recipes/' + recipe.key;
         Util.uploadPhoto(req.body.photo, filepath);
         req.body.photo = filepath;
@@ -24,7 +24,7 @@ router.post('/submit', (req, res) => {
 
 router.get('/get', (req, res) => {
     recipesRef.once('value', (snapshot) => {
-        if(snapshot.val() == null) {
+        if (snapshot.val() == null) {
             Util.responseHandler(res, false);
             return;
         } else {
@@ -36,13 +36,13 @@ router.get('/get', (req, res) => {
                 }
             }
             Util.responseHandler(res, true, '', recipes);
-        }        
+        }
     })
 })
 
 router.get('/get/:uid', (req, res) => {
     recipesRef.orderByKey().equalTo(req.params.uid).once('value', (snapshot) => {
-        if(snapshot.val() == null) {
+        if (snapshot.val() == null) {
             Util.responseHandler(res, false);
             return;
         } else {
@@ -54,7 +54,7 @@ router.get('/get/:uid', (req, res) => {
                 }
             }
             Util.responseHandler(res, true, '', recipes);
-        }        
+        }
     })
 })
 
@@ -91,6 +91,36 @@ router.get('/get-beer-types', (req, res) => {
         }
         Util.responseHandler(res, true, "Success", result);
     })
+})
+
+router.post('/submit-review', (req, res) => {
+    var recipeId = req.body.recipeId;
+
+    var review = {
+        username: req.body.writerName,
+        userId: req.body.writerId,
+        note: req.body.review,
+        date: new Date()
+    }
+
+    db.ref('recipes/' + recipeId).once('value', (snapshot) => {
+        var recipe = snapshot.val();
+        if (!recipe.reviews)
+            recipe.reviews = [];
+        recipe.reviews.unshift(review);
+        db.ref('recipes/' + recipeId).update({reviews: recipe.reviews});
+        Util.responseHandler(res, true);
+    });
+})
+
+router.get('/:uid/reviews', (req, res) => {
+    var recipeId = req.params.uid;
+
+    db.ref('recipes/' + recipeId).once('value', (snapshot) => {
+        var reviews = snapshot.val().reviews;
+        if(!reviews) reviews = [];
+        Util.responseHandler(res, true, '', reviews);
+    });
 })
 
 module.exports = router;

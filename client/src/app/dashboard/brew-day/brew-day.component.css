@@ -19,50 +19,6 @@
     padding-bottom: 40px;
 }
 
-.title {
-    font-weight: 600;
-    font-size: 37px;
-    color: white;
-    line-height: 1.15em;
-}
-
-.title hr {
-    height: 7px;
-    background: white;
-    width: 37px;
-    margin-left: 0;
-    margin-bottom: 17px;
-}
-
-.title.dark {
-    color: #4b4b4b;
-}
-
-.title.dark hr {
-    background: #ffc107;
-}
-
-.light-red {
-    color: #ff5722
-}
-
-.content.light {
-    color: white;
-}
-
-
-.candle-right {
-    display: inline-block;
-    position: absolute;
-    margin-top: -34px;
-    right: 0;
-}
-
-
-section {
-    padding-bottom: 70px;
-}
-
 .padding-top {
     padding-top: 60px;
 }
@@ -82,11 +38,6 @@ section {
 .red-background {
     min-height: 400px;
     background: rgba(0, 0, 0, 0) url(/assets/img/home/red_back.jpg) repeat scroll 60% center / cover;
-}
-
-.step-bar {
-    height: 70px;
-    background: #ff5722;
 }
 
 .step-title {

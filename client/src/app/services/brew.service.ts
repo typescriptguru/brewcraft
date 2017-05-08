@@ -83,7 +83,7 @@ export class BrewService {
         this.setBrew(brew);
       }
 
-    }, 100);
+    }, 1000);
   }
 
   clearBrew() {

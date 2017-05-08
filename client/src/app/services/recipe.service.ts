@@ -1,19 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { CONFIG } from '../common/config';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import {SharedService} from './index';
 
 @Injectable()
 export class RecipeService {
 
+  private recipesSubject = new Subject<Recipe[]>();
+
   constructor(
-    private http: Http
+    private http: Http,
+    private sharedService: SharedService
   ) { }
+
+  recipesListner(): Observable<Recipe[]> {
+    return this.recipesSubject.asObservable();
+  }
 
   submitRecipe(recipe: Recipe):Promise<any> {
     var url = CONFIG.SERVER_URL + '/recipes/submit';
     return this.http.post(url, recipe)
       .toPromise()
       .then(res => res.json());
+  }
+
+  submitReview(review: string, recipe: Recipe) {
+    var url = CONFIG.SERVER_URL + '/recipes/submit-review';
+    var user = this.sharedService.getUser();
+    return this.http.post(url, {recipeId: recipe.uid, writerName: user.fullname, writerId: user.uid, review: review})
+      .toPromise()
+      .then(res => res.json());
+  }
+
+  getReviews(recipe: Recipe) {
+    var url = CONFIG.SERVER_URL + '/recipes/' + recipe.uid + '/reviews';
+    return this.http.get(url)
+      .toPromise()
+      .then(res => res.json().data);
   }
 
   getRecipes() {
@@ -45,6 +70,10 @@ export class RecipeService {
     });
     return styles.sort();
   }
+
+  updateRecipesSession(recipes: Recipe[]) {
+    this.recipesSubject.next(recipes);
+  }
 }
 
 
@@ -70,6 +99,7 @@ export class Recipe {
   note: string = "";
   taste_note: string = "";
   community_rating: string = "";
+  uid: string="";
   gravity_alcohol_content_color: Object = {
     est_original_gravity: "",
     est_final_gravity: "",
@@ -121,6 +151,16 @@ export class Recipe {
       step_temperature: "",
       step_time: 0,
       notes: "",
+    }
+  ];
+
+  favorites: number = 0;
+  reviews: Array<any> = [
+    {
+      username: "",
+      userId: "",
+      note: "",
+      date: new Date()
     }
   ]
 }

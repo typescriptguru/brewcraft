@@ -14,3 +14,10 @@ hr {
     box-shadow: none;
     margin-top: 180px;
 }
+
+
+.title {
+    font-weight: 600;
+    font-size: 37px;
+    line-height: 1.15em;
+}

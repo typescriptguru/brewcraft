@@ -7,7 +7,7 @@
 }
 
 hr {
-     margin: 10px -15px 20px; 
+    margin: 10px -15px 20px;
 }
 
 .widget-title {
@@ -27,8 +27,36 @@ hr {
     margin-bottom: 6px;
 }
 
-.profile-info li > div {
+.profile-info li>div {
     width: 12px;
     float: left;
     margin-right: 7px;
+}
+
+.modal {
+    text-align: left;
+}
+
+.modal .title {
+    margin-bottom: 20px;
+}
+
+.box {
+    overflow: initial;
+    max-width: 650px;
+}
+.profile-photo {
+    max-width: 230px;
+    margin-top: 20px;
+}
+
+.box-image {
+    float: left;
+    width: 200px;
+}
+
+.box .form {
+    width: calc(100% - 200px);
+    float: left;
+    padding-left: 20px;
 }

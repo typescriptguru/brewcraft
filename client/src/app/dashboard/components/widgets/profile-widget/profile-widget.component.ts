@@ -31,7 +31,7 @@ export class ProfileWidgetComponent implements OnInit {
   croppedHeight: number;
   errorMsg: string = '';
 
-  @ViewChild('cropper', undefined) cropper:ImageCropperComponent;
+  @ViewChild('cropper', undefined) cropper: ImageCropperComponent;
 
   constructor(private sharedService: SharedService, private authService: AuthService) {
     this.cropperSettings2 = new CropperSettings();
@@ -42,7 +42,7 @@ export class ProfileWidgetComponent implements OnInit {
     this.cropperSettings2.croppedWidth = 200;
     this.cropperSettings2.croppedHeight = 200;
 
-    this.cropperSettings2.canvasWidth = 300;
+    this.cropperSettings2.canvasWidth = 380;
     this.cropperSettings2.canvasHeight = 300;
     this.cropperSettings2.minWidth = 100;
     this.cropperSettings2.minHeight = 100;
@@ -60,10 +60,12 @@ export class ProfileWidgetComponent implements OnInit {
   ngOnInit() {
     this.user = this.sharedService.getUser();
     this.tempUser = this.sharedService.getUser();
-    if(this.tempUser.birthday != undefined)
+    if (this.tempUser.birthday != undefined)
       this.tempUser.birthday = new Date(this.tempUser.birthday);
     var date = new Date(this.user.joinDate);
     this.joinDate = date.getFullYear().toString();
+    $('#profile-box').modal();
+    this.data2.image = this.user.photoUrl;
   }
 
   openProfileDialog() {
@@ -118,7 +120,7 @@ export class ProfileWidgetComponent implements OnInit {
   }
   imageSave() {
     this.errorMsg = '';
-    if(this.data2.image == '') {
+    if (this.data2.image == '') {
       this.errorMsg = 'Please choose image';
       return;
     }
@@ -127,6 +129,8 @@ export class ProfileWidgetComponent implements OnInit {
         this.uploadPhoto = false;
         this.data2.image = '';
         this.user.photoUrl = res.data;
+        this.tempUser.photoUrl = res.data;
+        console.log(this.user.photoUrl);
         this.sharedService.setUser(this.user);
       });
   }

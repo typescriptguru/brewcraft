@@ -210,7 +210,7 @@ router.post('/unfollow', (req, res) => {
 })
 
 router.put('/update-photo/:uid', (req, res) => {
-    console.log('uid', req.params.uid);
+    console.log('uid', req.body.photo);
     var uid = req.params.uid;
     var filepath = '/assets/gravatar/' + uid;
     Util.uploadPhoto(req.body.photo, filepath);

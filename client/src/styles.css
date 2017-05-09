@@ -853,12 +853,20 @@ section {
     background: #ff5722;
 }
 
+.btn.modal-close {
+    padding: 0 7px !important;
+    font-size: 30px;
+    line-height: 30px;
+    position: absolute;
+    right: 30px;
+}
+
 material-datepicker {
     float: left;
     width: 100%;
 }
 
-material-datepicker > div {
+material-datepicker>div {
     width: 100%;
 }
 

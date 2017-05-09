@@ -64,7 +64,6 @@ export class ProfileWidgetComponent implements OnInit {
       this.tempUser.birthday = new Date(this.tempUser.birthday);
     var date = new Date(this.user.joinDate);
     this.joinDate = date.getFullYear().toString();
-    $('#profile-box').modal();
     this.data2.image = this.user.photoUrl;
   }
 
